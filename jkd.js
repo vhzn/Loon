@@ -4,13 +4,13 @@
 打开'我的'获取Cookie
 ================Qx==============
 [task_local]
-0,30 * * * * ttps://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
+0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
 [rewrite_local]
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ================Loon==============
 [Script]
-https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
 cron "0,30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============Surge=================
@@ -28,35 +28,38 @@ const $ = new Env("聚看点")
 let cookiesArr = [
 
 ], cookie = '', message;
-
-if (typeof $request !== 'undefined') {
-  !(async () => {
-    if ($request && $request.method !== `OPTIONS`) {
-      const bodyVal = $request.body
-      let cks = $.getdata('CookiesJKD2') || "[]"
-      cks = jsonParse(cks);
-      const Cookieval = $request.headers['Cookie']
-      if (Cookieval) {
-        let os = []
-        for (let i = 0; i < cks.length; ++i) {
-          cookie = cks[i]
-          await getOpenId()
-          os.push($.openId)
-        }
-        cookie = Cookieval
+async function getCookie() {
+  if ($request && $request.method !== `OPTIONS`) {
+    const bodyVal = $request.body
+    let cks = $.getdata('CookiesJKD2') || "[]"
+    cks = jsonParse(cks);
+    const Cookieval = $request.headers['Cookie']
+    if (Cookieval) {
+      let os = []
+      for (let i = 0; i < cks.length; ++i) {
+        cookie = cks[i]
         await getOpenId()
-        if (!os.includes($.openId)) {
-          await getUserInfo()
-          cks.push(Cookieval)
-          $.setdata(JSON.stringify(cks), "CookiesJKD2")
-        }
+        os.push($.openId)
       }
-      $.log(`Cookie:${Cookieval}`)
-      $.log(`bodyVal:${bodyVal}`)
-      $.msg($.name, `获取Cookie${$.userName}成功`)
+      cookie = Cookieval
+      await getOpenId()
+      if (!os.includes($.openId)) {
+        await getUserInfo()
+        cks.push(Cookieval)
+        $.setdata(JSON.stringify(cks), "CookiesJKD2")
+      }
     }
-  }).catch((e) => $.logErr(e))
-    .finally(() => $.done())
+    $.log(`Cookie:${Cookieval}`)
+    $.log(`bodyVal:${bodyVal}`)
+    $.msg($.name, `获取Cookie${$.userName}成功`)
+  }
+}
+if (typeof $request !== 'undefined') {
+  getCookie().then(r => {
+    $.done()
+  }).finally(()=>{
+    $.done()
+  })
 } else {
   !(async () => {
     if ($.isNode()) {
