@@ -109,6 +109,15 @@ if (typeof $request !== 'undefined') {
         await getUserInfo()
         console.log(`\n******开始【聚看点账号${$.index}】${$.userName || $.openId}*********\n`);
         console.log(`${$.gold}，${$.current}，${$.sum}`)
+        if(cookie.indexOf('iOS')>0){
+          console.log(`${$.userName}的cookie来自iOS客户端`)
+        } else if(cookie.indexOf('android')>0){
+          console.log(`${$.userName}的cookie来自安卓客户端，替换Cookie`)
+          cookie = cookie.replace('!android!753','!iOS!5.6.5!')
+        } else{
+          console.log(`第【${$.index}】cookie无效！请检查`)
+          return
+        }
         await jkd()
       }
     }
@@ -123,10 +132,12 @@ async function jkd() {
   if (!$.isSign) await sign() // 签到
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
+  $.luckyDrawNum = 50
   if ($.luckyDrawNum > 0) {
-    $.log(`去转转盘，剩余${$.luckyDrawNum} 次`)
+    $.log(`去转转盘`)
     for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
       await getLuckyLevel()
+      if($.luckyDrawNum===0) break
       await luckyDraw()
       await luckyProfit()
       await $.wait(1000)
@@ -1140,8 +1151,9 @@ function getLuckyLevel() {
                   console.log(`去领取神秘宝箱奖励`)
                   await adv(11)
                 }
-              } else if (data['ret'] === 'fail') {
-                $.log(`开宝箱失败，错误信息：${data.rtn_msg}`)
+              } else if (data['ret'] === 'failed') {
+                $.log(`转盘已达上限，跳出`)
+                $.luckyDrawNum = 0
               } else {
                 $.log(`未知错误：${JSON.stringify(data)}`)
               }
