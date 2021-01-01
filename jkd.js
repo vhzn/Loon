@@ -1,7 +1,7 @@
 /*
 聚看点，所有任务+阅读
 欢迎填写邀请码：24224873
-打开'我的'获取Cookie
+阅读一篇文章获取Cookie
 ================Qx==============
 [task_local]
 0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
