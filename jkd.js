@@ -123,7 +123,7 @@ if (typeof $request !== 'undefined') {
         }
         await getUserInfo()
         console.log(`\n******开始【聚看点账号${$.index}】${$.userName || $.openId}*********\n`);
-        console.log(`${$.gold}，${$.current}，${$.sum}`)
+        console.log(`${$.gold}，当前${$.current}，${$.sum}`)
         if(cookie.indexOf('iOS')>0){
           console.log(`${$.userName}的cookie来自iOS客户端`)
         } else if(cookie.indexOf('android')>0){
@@ -426,7 +426,7 @@ function getUserInfo() {
             if (data['ret'] === 'ok') {
               $.userName = data.userinfo.username
               $.sum = data.userinfo.infoMeSumCashItem.title + data.userinfo.infoMeSumCashItem.value
-              $.current = data.userinfo.infoMeCurCashItem.title + data.userinfo.infoMeCurCashItem.value
+              // $.current = data.userinfo.infoMeCurCashItem.title + data.userinfo.infoMeCurCashItem.value
               $.gold = data.userinfo.infoMeGoldItem.title + ": " + data.userinfo.infoMeGoldItem.value
               $.current = data.userinfo.infoMeCurCashItem.value
             } else {
