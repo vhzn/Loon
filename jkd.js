@@ -6,7 +6,7 @@
 =============环境变量=============
 JKD_COOKIE cookies，可选择用&、@、换行隔开
 JKD_USER_AGENT 用户ua，默认为ios
-
+JKD_WITHDRAW 提现金额
 ================Qx==============
 [task_local]
 0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
@@ -123,9 +123,6 @@ if (typeof $request !== 'undefined') {
         } else if(cookie.indexOf('android')>0){
           console.log(`${$.userName}的cookie来自安卓客户端，替换Cookie`)
           cookie = cookie.replace('!android!753','!iOS!5.6.5')
-        } else{
-          console.log(`第【${$.index}】cookie无效！请检查`)
-          return
         }
         await jkd()
       }
