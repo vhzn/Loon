@@ -113,7 +113,7 @@ if (typeof $request !== 'undefined') {
           console.log(`${$.userName}的cookie来自iOS客户端`)
         } else if(cookie.indexOf('android')>0){
           console.log(`${$.userName}的cookie来自安卓客户端，替换Cookie`)
-          cookie = cookie.replace('!android!753','!iOS!5.6.5!')
+          cookie = cookie.replace('!android!753','!iOS!5.6.5')
         } else{
           console.log(`第【${$.index}】cookie无效！请检查`)
           return
