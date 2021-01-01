@@ -34,6 +34,8 @@ async function getCookie() {
     let cks = $.getdata('CookiesJKD2') || "[]"
     cks = jsonParse(cks);
     const Cookieval = $request.headers['Cookie']
+    $.log(`Cookie:${Cookieval}`)
+    $.log(`bodyVal:${bodyVal}`)
     if (Cookieval) {
       let os = []
       for (let i = 0; i < cks.length; ++i) {
@@ -47,11 +49,11 @@ async function getCookie() {
         await getUserInfo()
         cks.push(Cookieval)
         $.setdata(JSON.stringify(cks), "CookiesJKD2")
+        $.msg($.name, `获取Cookie ${$.userName} 成功`)
+      } else{
+        $.msg($.name, `${$.userName}已存在，请注释脚本`)
       }
     }
-    $.log(`Cookie:${Cookieval}`)
-    $.log(`bodyVal:${bodyVal}`)
-    $.msg($.name, `获取Cookie${$.userName}成功`)
   }
 }
 if (typeof $request !== 'undefined') {
