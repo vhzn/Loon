@@ -25,9 +25,8 @@ hostname = www.xiaodouzhuan.cn
 const API_HOST = 'https://www.xiaodouzhuan.cn'
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const $ = new Env("聚看点")
-let cookiesArr = [
+let cookiesArr = [], cookie = '', message;
 
-], cookie = '', message;
 async function getCookie() {
   if ($request && $request.method !== `OPTIONS`) {
     const bodyVal = $request.body
@@ -45,21 +44,22 @@ async function getCookie() {
       }
       cookie = Cookieval
       await getOpenId()
-      if (!os.includes($.openId)) {
+      if ($.openId && !os.includes($.openId)) {
         await getUserInfo()
         cks.push(Cookieval)
         $.setdata(JSON.stringify(cks), "CookiesJKD2")
         $.msg($.name, `获取Cookie ${$.userName} 成功`)
-      } else{
+      } else {
         $.msg($.name, `${$.userName}已存在，请注释脚本`)
       }
     }
   }
 }
+
 if (typeof $request !== 'undefined') {
   getCookie().then(r => {
     $.done()
-  }).finally(()=>{
+  }).finally(() => {
     $.done()
   })
 } else {
@@ -119,12 +119,14 @@ async function jkd() {
   if (!$.isSign) await sign() // 签到
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
-  $.log(`去转盘${$.luckyDrawNum} 次`)
-  for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
-    await getLuckyLevel()
-    await luckyDraw()
-    await luckyProfit()
-    await $.wait(1000)
+  if ($.luckyDrawNum > 0) {
+    $.log(`去转转盘，剩余${$.luckyDrawNum} 次`)
+    for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
+      await getLuckyLevel()
+      await luckyDraw()
+      await luckyProfit()
+      await $.wait(1000)
+    }
   }
   // await getTaskList() // 任务
   for (let i = 0; i < $.videoPacketNum; ++i) {
