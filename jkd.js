@@ -55,7 +55,11 @@ async function getCookie() {
         $.setdata(JSON.stringify(cks), "CookiesJKD2")
         $.msg($.name, `获取Cookie ${$.openId} 成功`)
       } else {
-        $.log(`openId已存在，${$.openId}`)
+        if(!$.openId){
+          $.msg($.name, `无法获取openId，请检查是否绑定微信`)
+        }else{
+          $.msg($.name, `openId ${$.openId} 已存在`)
+        }
         // $.msg($.name, `${$.userName}已存在，请注释脚本`)
       }
     }
