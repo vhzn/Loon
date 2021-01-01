@@ -29,52 +29,62 @@ let cookiesArr = [
 
 ], cookie = '', message;
 
-if ($.isNode()) {
-  let JKCookie = []
-  if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('@') > -1) {
-    JKCookie = process.env.JKD_COOKIE.split('@');
-  }
-  else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('&') > -1) {
-    JKCookie = process.env.JKD_COOKIE.split('&');
-  }
-  else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('\n') > -1) {
-    JKCookie = process.env.JKD_COOKIE.split('\n');
-  } else if (process.env.JKD_COOKIE){
-    JKCookie = process.env.JKD_COOKIE.split()
-  }
-    Object.keys(JKCookie).forEach((item) => {
-    if (JKCookie[item]) {
-      cookiesArr.push(JKCookie[item])
-    }
-  })
-  if (process.env.JKD_DEBUG && process.env.JKD_DEBUG === 'false') console.log = () => {
-  };
-} else {
-  let cookiesData = $.getdata('CookiesJKD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
-}
-
 if (typeof $request !== 'undefined') {
-  if ($request && $request.method != `OPTIONS`) {
-    const  bodyVal = $request.body
-    let cks = $.getdata('CookiesJKD') || "[]"
-    cks = jsonParse(cks);
-    const Cookieval = $request.headers['Cookie']
-    if(Cookieval){
-      cks.push(Cookieval)
-      $.setdata(JSON.stringify(cks),"CookiesJKD")
+  !(async () => {
+    if ($request && $request.method !== `OPTIONS`) {
+      const bodyVal = $request.body
+      let cks = $.getdata('CookiesJKD2') || "[]"
+      cks = jsonParse(cks);
+      const Cookieval = $request.headers['Cookie']
+      if (Cookieval) {
+        let os = []
+        for (let i = 0; i < cks.length; ++i) {
+          cookie = cks[i]
+          await getOpenId()
+          os.push($.openId)
+        }
+        cookie = Cookieval
+        await getOpenId()
+        if (!os.includes($.openId)) {
+          await getUserInfo()
+          cks.push(Cookieval)
+          $.setdata(JSON.stringify(cks), "CookiesJKD2")
+        }
+      }
+      $.log(`Cookie:${Cookieval}`)
+      $.log(`bodyVal:${bodyVal}`)
+      $.msg($.name, `获取Cookie${$.userName}成功`)
     }
-    $.log(`Cookie:${Cookieval}`)
-    $.log(`bodyVal:${bodyVal}`)
-    $.msg($.name,`获取Cookie${cks.length}成功`)
-    $.done()
-  }
+  }).catch((e) => $.logErr(e))
+    .finally(() => $.done())
 } else {
   !(async () => {
+    if ($.isNode()) {
+      let JKCookie = []
+      if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('@') > -1) {
+        JKCookie = process.env.JKD_COOKIE.split('@');
+      } else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('&') > -1) {
+        JKCookie = process.env.JKD_COOKIE.split('&');
+      } else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('\n') > -1) {
+        JKCookie = process.env.JKD_COOKIE.split('\n');
+      } else if (process.env.JKD_COOKIE) {
+        JKCookie = process.env.JKD_COOKIE.split()
+      }
+      Object.keys(JKCookie).forEach((item) => {
+        if (JKCookie[item]) {
+          cookiesArr.push(JKCookie[item])
+        }
+      })
+      if (process.env.JKD_DEBUG && process.env.JKD_DEBUG === 'false') console.log = () => {
+      };
+    } else {
+      let cookiesData = $.getdata('CookiesJKD2') || "[]";
+      cookiesData = jsonParse(cookiesData);
+      cookiesArr = cookiesData.map(item => item.cookie);
+      cookiesArr.reverse();
+      cookiesArr.reverse();
+      cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+    }
     if (!cookiesArr[0]) {
       $.msg($.name, '【提示】请先获取聚看点账号一cookie');
       return;
@@ -98,13 +108,20 @@ if (typeof $request !== 'undefined') {
   })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-  }
+}
 
 async function jkd() {
   $.profit = 0
   if (!$.isSign) await sign() // 签到
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
+  $.log(`去转盘${$.luckyDrawNum} 次`)
+  for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
+    await getLuckyLevel()
+    await luckyDraw()
+    await luckyProfit()
+    await $.wait(1000)
+  }
   // await getTaskList() // 任务
   for (let i = 0; i < $.videoPacketNum; ++i) {
     $.log(`去看激励视频`)
@@ -316,6 +333,8 @@ function getOpenId() {
           $.isSign = data.match(/var issign = parseInt\("(.*)"\)/)[1]
           $.videoPacketNum = data.match(/var videoPacketNum = (\S*);/)[1]
           $.newsTaskNum = data.match(/var newsTaskNum = (\S*);/)[1]
+          $.luckyDrawNum = (data.match(/var luckDrawTaskNum = (\S*);/)[1])
+          console.log($.luckyDrawNum)
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -996,6 +1015,137 @@ function videoAccount(artId) {
                 $.profit += data.profit
               } else if (data['ret'] === 'fail') {
                 $.log(`视频阅读失败，错误信息：${data.rtn_msg}`)
+              } else {
+                $.log(`未知错误：${JSON.stringify(data)}`)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve(data);
+        }
+      })
+  })
+}
+
+function luckyDraw() {
+  return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/activity/advluckdraw/getLuckDrawGold.action"),
+      async (err, resp, data) => {
+        try {
+          if (err) {
+            $.log(`${JSON.stringify(err)}`)
+            $.log(`${$.name} API请求失败，请检查网路重试`)
+          } else {
+            if (safeGet(data)) {
+              data = JSON.parse(data);
+              if (data['ret'] === 'ok') {
+                $.log(`luckyDraw记录成功`)
+              } else if (data['ret'] === 'fail') {
+                $.log(`luckyDraw记录失败，错误信息：${data.rtn_msg}`)
+              } else {
+                $.log(`未知错误：${JSON.stringify(data)}`)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve(data);
+        }
+      })
+  })
+}
+
+function luckyProfit() {
+  return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/activity/advluckdraw/getTotalLuckProfit.action",),
+      async (err, resp, data) => {
+        try {
+          if (err) {
+            $.log(`${JSON.stringify(err)}`)
+            $.log(`${$.name} API请求失败，请检查网路重试`)
+          } else {
+            if (safeGet(data)) {
+              data = JSON.parse(data);
+              if (data['ret'] === 'ok') {
+                $.log(`转盘获取成功，共计 ${data.data.totalProfit} 金币`)
+              } else if (data['ret'] === 'fail') {
+                $.log(`视频阅读失败，错误信息：${data.rtn_msg}`)
+              } else {
+                $.log(`未知错误：${JSON.stringify(data)}`)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve(data);
+        }
+      })
+  })
+}
+
+function getLuckyLevel() {
+  return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/activity/advluckdraw/getLuckDrawLevel.action",),
+      async (err, resp, data) => {
+        try {
+          if (err) {
+            $.log(`${JSON.stringify(err)}`)
+            $.log(`${$.name} API请求失败，请检查网路重试`)
+          } else {
+            if (safeGet(data)) {
+              data = JSON.parse(data);
+              if (data['ret'] === 'ok') {
+                console.log(`转盘记录成功，剩余 ${data.data.unFinishNum} 次`)
+                $.unFinishNum = data.data.unFinishNum
+                let states = JSON.parse(data.data.list)
+                for (let i = 0; i < states.length; ++i) {
+                  const vo = states[i]
+                  if (vo['status'] === 1) {
+                    console.log(`去领取开宝箱阶段奖励：${vo['level']}`)
+                    await getLuckyDrawBox(i)
+                  }
+                }
+                if (data['data']['luckName'] === "神秘宝箱") {
+                  console.log(`去领取神秘宝箱奖励`)
+                  await adv(11)
+                }
+              } else if (data['ret'] === 'fail') {
+                $.log(`开宝箱失败，错误信息：${data.rtn_msg}`)
+              } else {
+                $.log(`未知错误：${JSON.stringify(data)}`)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve(data);
+        }
+      })
+  })
+}
+
+function getLuckyDrawBox(i) {
+  let body = `num=${i}`
+  return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/activity/advluckdraw/getLuckDrawBox.action", body),
+      async (err, resp, data) => {
+        try {
+          if (err) {
+            $.log(`${JSON.stringify(err)}`)
+            $.log(`${$.name} API请求失败，请检查网路重试`)
+          } else {
+            if (safeGet(data)) {
+              data = JSON.parse(data);
+              if (data['ret'] === 'ok') {
+                console.log(`阶段奖励领取成功，获得 ${data.data} 金币`)
+                $.profit += data.data
+              } else if (data['ret'] === 'fail') {
+                $.log(`阶段奖励领取失败，错误信息：${data.rtn_msg}`)
               } else {
                 $.log(`未知错误：${JSON.stringify(data)}`)
               }
