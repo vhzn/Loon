@@ -340,7 +340,6 @@ function getOpenId() {
           $.videoPacketNum = data.match(/var videoPacketNum = (\S*);/)[1]
           $.newsTaskNum = data.match(/var newsTaskNum = (\S*);/)[1]
           $.luckyDrawNum = (data.match(/var luckDrawTaskNum = (\S*);/)[1])
-          console.log($.luckyDrawNum)
         }
       } catch (e) {
         $.logErr(e, resp)
