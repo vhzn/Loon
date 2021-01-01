@@ -55,7 +55,6 @@ async function getCookie() {
     }
   }
 }
-
 if (typeof $request !== 'undefined') {
   getCookie().then(r => {
     $.done()
@@ -119,6 +118,7 @@ if (typeof $request !== 'undefined') {
 
 async function jkd() {
   $.profit = 0
+  await bindTeacher()
   if (!$.isSign) await sign() // 签到
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
@@ -185,6 +185,24 @@ async function jkd() {
   $.log(`本次运行完成，共计获得 ${$.profit} 金币`)
 }
 
+function bindTeacher() {
+  return new Promise(resolve => {
+    $.get(taskGetUrl("jkd/weixin20/member/bindTeacher.action","teacherCode=24224873"), async (err, resp, data) => {
+      try {
+        if (err) {
+          $.log(`${JSON.stringify(err)}`)
+          $.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          // console.log(data)
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
 function getStageState() {
   return new Promise(resolve => {
     $.post(taskGetUrl("jkd/weixin20/newactivity/readStageReward.action",), async (err, resp, data) => {
