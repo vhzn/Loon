@@ -68,10 +68,13 @@ if (typeof $request !== 'undefined') {
       let JKCookie = []
       if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('@') > -1) {
         JKCookie = process.env.JKD_COOKIE.split('@');
+        console.log(`您的JKD_COOKIE选择的是用@隔开，共计 ${JKCookie.length} 个Cookie\n`)
       } else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('&') > -1) {
         JKCookie = process.env.JKD_COOKIE.split('&');
+        console.log(`您的JKD_COOKIE选择的是用&隔开，共计 ${JKCookie.length} 个Cookie\n`)
       } else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('\n') > -1) {
         JKCookie = process.env.JKD_COOKIE.split('\n');
+        console.log(`您的JKD_COOKIE选择的是用换行符隔开，共计 ${JKCookie.length} 个Cookie\n`)
       } else if (process.env.JKD_COOKIE) {
         JKCookie = process.env.JKD_COOKIE.split()
       }
