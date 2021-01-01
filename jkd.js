@@ -1,21 +1,21 @@
 /*
 聚看点，所有任务+阅读
 欢迎填写邀请码：24224873
-阅读一篇文章获取Cookie
+点我的获取Cookie
 ================Qx==============
 [task_local]
 0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
 [rewrite_local]
-https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ================Loon==============
 [Script]
-http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action  script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
+http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action  script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
 cron "0,30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============Surge=================
 [Script]
-聚看点 = type=http-request,pattern=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action ,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+聚看点 = type=http-request,pattern=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action ,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 聚看点 = type=cron,cronexp="0,30 * * * *",wake-system=1,timeout=900,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============MITM=================
@@ -98,10 +98,11 @@ if (typeof $request !== 'undefined') {
     for (let i = 0; i < cookiesArr.length; i++) {
       if (cookiesArr[i]) {
         cookie = cookiesArr[i];
-        $.uuid = cookie.match(/UM_distinctid=(\S*);/)[1]
+        $.uuid = ""
+        // $.uuid = cookie.match(/UM_distinctid=(\S*);/)[1]
         await getOpenId()
         $.index = i + 1;
-        if (!$.openId || !$.uuid) {
+        if (!$.openId) {
           console.log(`Cookies${$.index}已失效！`)
           break
         }
