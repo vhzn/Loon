@@ -2,6 +2,11 @@
 聚看点，所有任务+阅读
 欢迎填写邀请码：24224873
 点我的获取Cookie
+
+=============环境变量=============
+JKD_COOKIE cookies，可选择用&、@、换行隔开
+JKD_USER_AGENT 用户ua，默认为ios
+
 ================Qx==============
 [task_local]
 0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
@@ -25,6 +30,7 @@ hostname = www.xiaodouzhuan.cn
 const API_HOST = 'https://www.xiaodouzhuan.cn'
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const $ = new Env("聚看点")
+let sum = 0
 let cookiesArr = [], cookie = '', message;
 
 async function getCookie() {
@@ -77,6 +83,9 @@ if (typeof $request !== 'undefined') {
       } else if (process.env.JKD_COOKIE) {
         JKCookie = process.env.JKD_COOKIE.split()
       }
+      if (process.env.JKD_WITHDRAW){
+        sum = process.env.JKD_WITHDRAW
+      }
       Object.keys(JKCookie).forEach((item) => {
         if (JKCookie[item]) {
           cookiesArr.push(JKCookie[item])
@@ -127,6 +136,10 @@ if (typeof $request !== 'undefined') {
 }
 
 async function jkd() {
+  if( sum!==0 && $.current > sum){
+    console.log(`触发提现条件，去提现`)
+    await withDraw()
+  }
   $.profit = 0
   await bindTeacher()
   if (!$.isSign) await sign() // 签到
@@ -262,7 +275,9 @@ function getTaskList() {
     "openid": $.openId,
     "os": "iOS",
     "listtype": "wealnews",
-    "ua": UA,
+    "ua": $.isNode() ?
+      (process.env.JKD_USER_AGENT ? process.env.JKD_USER_AGENT : UA) : ($.getdata('JKDUA')
+      ? $.getdata('JKDUA') : UA),
     "pageNo": 0,
     "pageSize": 20
   }
@@ -410,6 +425,7 @@ function getUserInfo() {
               $.sum = data.userinfo.infoMeSumCashItem.title + data.userinfo.infoMeSumCashItem.value
               $.current = data.userinfo.infoMeCurCashItem.title + data.userinfo.infoMeCurCashItem.value
               $.gold = data.userinfo.infoMeGoldItem.title + ": " + data.userinfo.infoMeGoldItem.value
+              $.current = data.userinfo.infoMeCurCashItem.value
             } else {
               $.log(`个人信息获取失败，错误信息：${JSON.stringify(data)}`)
             }
@@ -1198,6 +1214,34 @@ function getLuckyDrawBox(i) {
       })
   })
 }
+function withDraw() {
+  return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/weixin20/userWithdraw/userWithdrawPost.action",
+      `type=wx&sum=${sum}&mobile=&pid=0`), async (err, resp, data) => {
+      try {
+        if (err) {
+          $.log(`${JSON.stringify(err)}`)
+          $.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if (data['ret'] === 'ok') {
+              $.log(`提现成功`)
+            } else if (data['ret'] === 'fail') {
+              $.log(`提现失败，错误信息：${data.rtn_msg}`)
+            } else {
+              $.log(`未知错误：${JSON.stringify(data)}`)
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
 
 function safeGet(data) {
   try {
@@ -1232,7 +1276,9 @@ function taskGetUrl(function_id, body) {
       'accept': 'application/json, text/plain, */*',
       'origin': 'https://www.xiaodouzhuan.cn',
       'referer': 'https://www.xiaodouzhuan.cn',
-      "User-Agent": UA
+      "User-Agent": $.isNode() ?
+        (process.env.JKD_USER_AGENT ? process.env.JKD_USER_AGENT : UA) : ($.getdata('JKDUA')
+          ? $.getdata('JKDUA') : UA),
     }
   }
 }
@@ -1247,7 +1293,9 @@ function taskPostUrl(function_id, body) {
       'accept': 'application/json, text/plain, */*',
       'origin': 'https://www.xiaodouzhuan.cn',
       'referer': 'https://www.xiaodouzhuan.cn',
-      "User-Agent": UA
+      "User-Agent": $.isNode() ?
+        (process.env.JKD_USER_AGENT ? process.env.JKD_USER_AGENT : UA) : ($.getdata('JKDUA')
+          ? $.getdata('JKDUA') : UA),
     }
   }
 }
