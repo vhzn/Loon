@@ -11,9 +11,11 @@ const API_HOST = 'https://www.xiaodouzhuan.cn'
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const $ = new Env("聚看点")
 let cookiesArr = [
+  
 ], cookie = '', message;
 
 if ($.isNode()) {
+  let JKCookie = []
   if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('@') > -1) {
     JKCookie = process.env.JKD_COOKIE.split('@');
   }
@@ -22,10 +24,10 @@ if ($.isNode()) {
   }
   else if (process.env.JKD_COOKIE && process.env.JKD_COOKIE.indexOf('\n') > -1) {
     JKCookie = process.env.JKD_COOKIE.split('\n');
-  } else {
+  } else if (process.env.JKD_COOKIE){
     JKCookie = process.env.JKD_COOKIE.split()
   }
-  Object.keys(JKCookie).forEach((item) => {
+    Object.keys(JKCookie).forEach((item) => {
     if (JKCookie[item]) {
       cookiesArr.push(JKCookie[item])
     }
