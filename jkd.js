@@ -6,16 +6,16 @@
 [task_local]
 0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
 [rewrite_local]
-https:\/\/www\.xiaodouzhuan\.cn\/jkd\/minfo\/call\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ================Loon==============
 [Script]
-http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/minfo\/call\.action script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
+http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action  script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
 cron "0,30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============Surge=================
 [Script]
-聚看点 = type=http-request,pattern=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/minfo\/call\.action,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+聚看点 = type=http-request,pattern=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/weixin20\/station\/getCommentList\.action ,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 聚看点 = type=cron,cronexp="0,30 * * * *",wake-system=1,timeout=900,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============MITM=================
@@ -35,7 +35,7 @@ async function getCookie() {
     const Cookieval = $request.headers['Cookie']
     $.log(`Cookie:${Cookieval}`)
     $.log(`bodyVal:${bodyVal}`)
-    if (Cookieval) {
+    if (Cookieval && Cookieval.indexOf("UM_distinctid") > 0) {
       let os = []
       for (let i = 0; i < cks.length; ++i) {
         cookie = cks[i]
@@ -45,11 +45,11 @@ async function getCookie() {
       cookie = Cookieval
       await getOpenId()
       if ($.openId && !os.includes($.openId)) {
-        await getUserInfo()
         cks.push(Cookieval)
         $.setdata(JSON.stringify(cks), "CookiesJKD2")
-        $.msg($.name, `获取Cookie ${$.userName} 成功`)
+        $.msg($.name, `获取Cookie ${$.openId} 成功`)
       } else {
+        $.log(`openId已存在，${$.openId}`)
         // $.msg($.name, `${$.userName}已存在，请注释脚本`)
       }
     }

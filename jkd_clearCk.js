@@ -1,7 +1,8 @@
 const $ = new Env("聚看点清除Cookie")
 if (!$.isNode()) {
-  $.setdata("CookiesJKD","[]")
-  $.setdata("CookiesJKD2","[]")
+  $.setdata("[]","CookiesJKD")
+  $.setdata("[]","CookiesJKD2")
+  console.log($.getdata("CookiesJKD2"))
   $.log("ck清除成功！")
   $.done()
 }
