@@ -35,7 +35,7 @@ async function getCookie() {
     const Cookieval = $request.headers['Cookie']
     $.log(`Cookie:${Cookieval}`)
     $.log(`bodyVal:${bodyVal}`)
-    if (Cookieval && Cookieval.indexOf("UM_distinctid") > 0) {
+    if (Cookieval) {
       let os = []
       for (let i = 0; i < cks.length; ++i) {
         cookie = cks[i]
