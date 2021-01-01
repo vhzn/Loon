@@ -50,7 +50,7 @@ async function getCookie() {
         $.setdata(JSON.stringify(cks), "CookiesJKD2")
         $.msg($.name, `获取Cookie ${$.userName} 成功`)
       } else {
-        $.msg($.name, `${$.userName}已存在，请注释脚本`)
+        // $.msg($.name, `${$.userName}已存在，请注释脚本`)
       }
     }
   }
