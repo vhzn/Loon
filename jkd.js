@@ -111,8 +111,10 @@ if (typeof $request !== 'undefined') {
     for (let i = 0; i < cookiesArr.length; i++) {
       if (cookiesArr[i]) {
         cookie = cookiesArr[i];
-        $.uuid = ""
-        // $.uuid = cookie.match(/UM_distinctid=(\S*);/)[1]
+        if(cookie.indexOf("UM_distinctid")>0){
+          $.uuid = cookie.match(/UM_distinctid=(\S*);/)[1]
+        }
+        else $.uuid = ""
         await getOpenId()
         $.index = i + 1;
         if (!$.openId) {
