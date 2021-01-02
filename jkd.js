@@ -812,7 +812,6 @@ function openTimeBox() {
     "appid": "xzwl",
     "appversion": $.version.toString().split('').join('.'),
   }
-  console.log(body)
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/account/openTimeBoxAccount.action",
       `jsondata=${escape(JSON.stringify(body))}`), async (err, resp, data) => {
