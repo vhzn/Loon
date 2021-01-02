@@ -31,7 +31,10 @@ const API_HOST = 'https://www.xiaodouzhuan.cn'
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const $ = new Env("聚看点")
 let sum = 0
-let cookiesArr = [], cookie = '', message;
+let cookiesArr = [
+  // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号1ck）
+  // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号2ck）
+], cookie = '', message;
 
 async function getCookie() {
   if ($request && $request.method !== `OPTIONS`) {
@@ -111,7 +114,7 @@ if (typeof $request !== 'undefined') {
     for (let i = 0; i < cookiesArr.length; i++) {
       if (cookiesArr[i]) {
         cookie = cookiesArr[i];
-        if(cookie.indexOf("UM_distinctid")>0){
+        if(cookie.match(/UM_distinctid=(\S*);/)){
           $.uuid = cookie.match(/UM_distinctid=(\S*);/)[1]
         }
         else $.uuid = ""
@@ -456,7 +459,7 @@ function sign() {
             data = JSON.parse(data);
             if (data['ret'] === 'ok') {
               $.profit += data.datas.signAmt
-              $.log(`签到成功，获得 ${data.datas.signAmt}金币，已签到${data.datas.signDays}，下次签到金币：${data.datas.nextSignAmt}`)
+              $.log(`签到成功，获得 ${data.datas.signAmt} 金币，已签到 ${data.datas.signDays}天，下次签到金币：${data.datas.nextSignAmt}`)
               $.log(`去做签到分享任务`)
               await signShare(data.datas.position)
             } else {
@@ -577,7 +580,7 @@ function adv(position) {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data['ret'] === 'ok') {
-              $.log(`点击视频成功，预计获得${data.rewardAmount ? data.rewardAmount : 0}金币，等待30秒`)
+              $.log(`点击视频成功，预计获得 ${data.rewardAmount ? data.rewardAmount : 0} 金币，等待 30 秒`)
               await $.wait(31 * 1000)
               body['time'] = `${new Date().getTime()}`
               await rewardAdv(body)
