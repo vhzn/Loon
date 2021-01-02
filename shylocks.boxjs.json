@@ -8,7 +8,7 @@
     {
       "id": "jkd",
       "name": "聚看点",
-      "keys": ["CookiesJKD2","JKD_WITHDRAW"],
+      "keys": ["CookiesJKD2","JKD_WITHDRAW","JKDUA"],
       "author": "@shylocks",
       "repo": "https://github.com/shylocks/Loon/blob/main/jkd.js",
       "settings": [
@@ -26,6 +26,13 @@
           "type": "number",
           "placeholder": "默认不提现",
           "desc": "仅允许填入数字，建议30提现"
+        },{
+          "id": "JKDUA",
+          "name": "user agent",
+          "val": "",
+          "type": "string",
+          "placeholder": "不填则为ios端ua",
+          "desc": ""
         }],
       "icons": [],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js"
