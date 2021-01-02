@@ -28,7 +28,7 @@ cron "0,30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/
 hostname = www.xiaodouzhuan.cn
 */
 const API_HOST = 'https://www.xiaodouzhuan.cn'
-const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const DATE = `${new Date().getUTCFullYear()}${(new Date().getUTCMonth()+1).toString().padStart(2,"0")}${new Date().getUTCDate().toString().padStart(2,"0")}`
 let liveBody = null
 const $ = new Env("聚看点")
@@ -151,11 +151,17 @@ if (typeof $request !== 'undefined') {
         await getUserInfo()
         console.log(`\n******开始【聚看点账号${$.index}】${$.userName || $.openId}*********\n`);
         console.log(`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`)
+        $.iOS = true
         if (cookie.indexOf('iOS') > 0) {
           console.log(`${$.userName}的cookie来自iOS客户端`)
+          UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
         } else if (cookie.indexOf('android') > 0) {
-          console.log(`${$.userName}的cookie来自安卓客户端，替换Cookie`)
-          cookie = cookie.replace('!android!753', '!iOS!5.6.5')
+          console.log(`${$.userName}的cookie来自安卓客户端`)
+          $.iOS = false
+          UA = 'Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012)'
+          // cookie = cookie.replace('!android!753', '!iOS!5.6.5')
+        } else{
+          console.log(`无法获取客户端标示，请检查cookie是否正确`)
         }
         await jkd()
       }
@@ -301,14 +307,14 @@ function userLive(body) {
   let postBody = {
     ...body,
     "appid": "xzwl",
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": $.version,
     "time": new Date().getTime(),
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": "5575aa16cb974da4bd735f182fbffac5",
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "opdate": `${DATE}`
   }
   return new Promise(resolve => {
@@ -394,14 +400,14 @@ function getStageState() {
 function getTaskList() {
   let body = {
     "appid": "xzwl",
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": $.version,
     "time": new Date().getTime(),
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": $.openId,
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "listtype": "wealnews",
     "ua": $.isNode() ?
       (process.env.JKD_USER_AGENT ? process.env.JKD_USER_AGENT : UA) : ($.getdata('JKDUA')
@@ -450,14 +456,14 @@ function doTask(taskId, taskName, action) {
     //"exporturl": "https:\/\/kyshiman.com\/kkz\/channel?ref=436",
     //"pageurl": "https:\/\/new.huanzhuti.com\/news\/26382197?cid=qsbk02",
     "slidenum": 1,
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": $.openID,
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "operatepath": "adDetail",
     "taskId": taskId,
     "billingtype": 2,
@@ -501,7 +507,7 @@ function doTask(taskId, taskName, action) {
 
 function getOpenId() {
   return new Promise(resolve => {
-    $.post(taskGetUrl("jkd/task/userSign.action", "channel=iO"), async (err, resp, data) => {
+    $.post(taskGetUrl("jkd/task/userSign.action", `channel=${$.iOS?"iOS":"android"}`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${JSON.stringify(err)}`)
@@ -529,14 +535,14 @@ function getOpenId() {
 function getUserInfo() {
   let body = {
     "openid": $.openId,
-    "channel": "iOS",
-    "os": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
+    "os": $.iOS ? "iOS" : "android",
     "appversioncode": $.version,
     "time": new Date().getTime().toString(),
     "psign": "92dea068b6c271161be05ed358b59932",
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": "5.6.5"
+    "appversion": $.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/newMobileMenu/infoMe.action",
@@ -634,15 +640,15 @@ function getTaskBoxProfit(boxType = 1) {
 function signShare(position) {
   let body = {
     "openid": $.openId,
-    "channel": "iOS",
-    "os": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
+    "os": $.iOS ? "iOS" : "android",
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "position": position,
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": "5.6.5"
+    "appversion": $.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/account/signShareAccount.action",
@@ -680,15 +686,15 @@ function signShare(position) {
 function adv(position) {
   let body = {
     "openid": $.openId,
-    "channel": "iOS",
-    "os": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
+    "os": $.iOS ? "iOS" : "android",
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "position": position,
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": "5.6.5"
+    "appversion": $.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/newmobile/stimulateAdv.action",
@@ -757,15 +763,15 @@ function getArticleList(categoryId = 3) {
     "connectionType": 100,
     "optaction": "down",
     "pagesize": 12,
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
-    "appversioncode": "565",
+    "appversioncode": $.version,
     "time": "1609437200",
     "apptoken": "xzwltoken070704",
     "cateid": categoryId,
     "openid": $.openId,
-    "os": "iOS",
-    "appversion": "5.6.5",
+    "os": $.iOS ? "iOS" : "android",
+    "appversion": $.version.toString().split('').join('.'),
     "operatorType": 2,
     "page": 12
   }
@@ -797,15 +803,16 @@ function getArticleList(categoryId = 3) {
 function openTimeBox() {
   let body = {
     "openid": $.openId,
-    "channel": "iOS",
-    "os": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
+    "os": $.iOS ? "iOS" : "android",
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": "5.6.5"
+    "appversion": $.version.toString().split('').join('.'),
   }
+  console.log(body)
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/account/openTimeBoxAccount.action",
       `jsondata=${escape(JSON.stringify(body))}`), async (err, resp, data) => {
@@ -843,10 +850,10 @@ function getArticle(artId) {
   let body = {
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": $.openId,
-    "channel": "iOS",
-    "os": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
+    "os": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "artid": artId,
     "appid": "xzwl"
@@ -878,16 +885,16 @@ function getArticle(artId) {
 function getVideo(artId) {
   let body = {
     "appid": "xzwl",
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": $.version.toString(),
     "time": new Date().getTime().toString(),
     "apptoken": "xzwltoken070704",
     "requestid": new Date().getTime().toString(),
     "openid": $.openId,
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "artid": artId,
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "relate": "1",
     "scenetype": ""
   }
@@ -951,16 +958,16 @@ function call2(uuid) {
     "openid": $.openId,
     "app_id": "xzwl",
     "version_token": `${$.version}`,
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "vercode": `${$.version}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "app_token": "xzwltoken070704",
-    "version": "5.6.5",
+    "version": $.version.toString().split('').join('.'),
     "pars": {
       "openID": $.openId,
       "uniqueid": uuid,
-      "os": "iOS",
-      "channel": "iOS",
+      "os": $.iOS ? "iOS" : "android",
+      "channel": $.iOS ? "iOS" : "android",
       "openid": $.openId
     }
   }
@@ -997,16 +1004,16 @@ function call1(uuid, article_id) {
     "openid": $.openId,
     "app_id": "xzwl",
     "version_token": `${$.version}`,
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "vercode": `${$.version}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "app_token": "xzwltoken070704",
-    "version": "5.6.5",
+    "version": $.version.toString().split('').join('.'),
     "pars": {
       "openID": $.openId,
       "uniqueid": uuid,
-      "os": "iOS",
-      "channel": "iOS",
+      "os": $.iOS ? "iOS" : "android",
+      "channel": $.iOS ? "iOS" : "android",
       "openid": $.openId,
       "article_id": article_id
     }
@@ -1035,13 +1042,15 @@ function call1(uuid, article_id) {
 }
 
 function article(artId) {
-  let body = `articleid=${artId}&openID=${$.openId}&ce=iOS&request_id=${new Date().getTime()}&scene_type=art_recommend_iOS&articlevideo=0&version=5.6.5&account_type=1&channel=iOS&shade=1&a=zv8lS5d9LnyV7Bdoyt0NHQ==&font_size=1&scene_type=&request_id=${new Date().getTime()}`
+  let body = `articleid=${artId}&openID=${$.openId}&ce=${$.iOS?"iOS":"android"}&request_id=${new Date().getTime()}&scene_type=art_recommend_${$.iOS?"iOS":"android"}&articlevideo=0&version=${$.version}&account_type=1&channel=iOS&shade=1&a=zv8lS5d9LnyV7Bdoyt0NHQ==&font_size=1&scene_type=&request_id=${new Date().getTime()}`
   let config = {
     'url': 'https://www.jukandiannews.com/jkd/weixin20/station/stationarticle.action?' + body,
     'Host': 'www.jukandiannews.com',
     'origin': 'https://www.jukandiannews.com',
     'accept-language': 'zh-cn',
-    'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+    'user-agent': $.isNode() ?
+      (process.env.JKD_USER_AGENT ? process.env.JKD_USER_AGENT : UA) : ($.getdata('JKDUA')
+        ? $.getdata('JKDUA') : UA),
     'Cookie': cookie,
   }
   return new Promise(resolve => {
@@ -1120,14 +1129,14 @@ function readAccount(artId, payType = 1) {
     "read_weal": 0,
     "paytype": payType,
     "securitykey": "",
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": $.openId,
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "artid": artId,
     "accountType": "0",
     "readmodel": "1"
@@ -1168,14 +1177,14 @@ function videoAccount(artId) {
     "read_weal": 0,
     "paytype": 2,
     "securitykey": "",
-    "channel": "iOS",
+    "channel": $.iOS ? "iOS" : "android",
     "psign": "92dea068b6c271161be05ed358b59932",
     "appversioncode": $.version,
     "time": new Date().toString(),
     "apptoken": "xzwltoken070704",
-    "appversion": "5.6.5",
+    "appversion": $.version.toString().split('').join('.'),
     "openid": $.openId,
-    "os": "iOS",
+    "os": $.iOS ? "iOS" : "android",
     "artid": artId,
     "accountType": "0",
     "readmodel": "1"
