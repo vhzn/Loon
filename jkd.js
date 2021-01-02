@@ -102,6 +102,7 @@ if (typeof $request !== 'undefined') {
       };
     } else {
       let cookiesData = $.getdata('CookiesJKD2') || "[]";
+      sum = $.getdata("JKD_WITHDRAW") || 0;
       cookiesData = jsonParse(cookiesData);
       cookiesArr = cookiesData;
       cookiesArr.reverse();

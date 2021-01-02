@@ -1,0 +1,34 @@
+{
+  "id": "shylocks.app.sub",
+  "name": "shylocks 签到应用订阅",
+  "author": "@shylocks",
+  "icon": "https://avatars0.githubusercontent.com/u/5812638?s=460&u=7809808d21bd48a6c19c0dece533e92d4bb34151&v=4",
+  "repo": "https://github.com/shylocks/Scripts/tree/master",
+  "apps": [
+    {
+      "id": "jkd",
+      "name": "聚看点",
+      "keys": ["CookiesJKD2","jukan_name"],
+      "author": "@shylocks",
+      "repo": "https://github.com/shylocks/Loon/blob/main/jkd.js",
+      "settings": [
+        {
+          "id": "CookiesJKD2",
+          "name": "聚看点cookie",
+          "val": "",
+          "type": "number",
+          "placeholder": "",
+          "desc": "格式：['ck1','ck2']"
+        },{
+          "id": "JKD_WITHDRAW",
+          "name": "提现金额",
+          "val": "",
+          "type": "number",
+          "placeholder": "默认不提现",
+          "desc": "仅允许填入数字，建议30提现"
+        }],
+      "icons": [],
+      "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js"
+    }
+  ]
+}
