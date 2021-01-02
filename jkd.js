@@ -194,8 +194,9 @@ function requireConfig(){
         $.log('未找到活跃时间body，新建')
         liveBody = {}
       } else{
+        $.log('读取本地活跃时间body')
         let raw = fs.readFileSync('jkd.json').toString();
-        liveBody = JSON.parse(raw)
+        liveBody = JSON.parse(raw)?JSON.parse(raw):{}
       }
     } catch(err) {
       liveBody = {}
