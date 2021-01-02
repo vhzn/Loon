@@ -157,7 +157,7 @@ if (typeof $request !== 'undefined') {
           UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
         } else if (cookie.indexOf('android') > 0) {
           console.log(`${$.userName}的cookie来自安卓客户端`)
-          $.iOS = false
+          // $.iOS = false
           UA = 'Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012)'
           // cookie = cookie.replace('!android!753', '!iOS!5.6.5')
         } else{
