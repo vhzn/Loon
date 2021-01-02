@@ -186,7 +186,17 @@ if (typeof $request !== 'undefined') {
 
 function requireConfig(){
   if(!$.isNode()){
-    liveBody = $.getdata("jkdLiveBody")?JSON.parse($.getdata("jkdLiveBody")):{}
+    if($.getdata("jkdLiveBody")!=null) {
+      console.log('加载本地阅读时长body')
+      liveBody = JSON.parse($.getdata("jkdLiveBody"))
+      if(liveBody===null){
+        liveBody = {}
+      }
+    }
+    else {
+      console.log('没有阅读时长body，新建')
+      liveBody = {}
+    }
   } else{
     const fs = require('fs');
     try {
