@@ -155,7 +155,6 @@ if (typeof $request !== 'undefined') {
         await getUserInfo()
         console.log(`\n******开始【聚看点账号${$.index}】${$.userName || $.openId}*********\n`);
         console.log(`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`)
-        $.message += `${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元\n`
         $.iOS = true
         if (cookie.indexOf('iOS') > 0) {
           console.log(`${$.userName}的cookie来自iOS客户端`)
@@ -223,9 +222,9 @@ function requireConfig(){
 
 function showMsg(){
   if(!$.isNode()) {
-    $.msg(`【账号${$.name}${$.index} ${$.userName}】`, $.message)
+    $.msg(`【账号${$.name}${$.index} ${$.userName}】`,`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`, $.message)
   }else{
-    $.log(`【账号${$.name}${$.index} ${$.userName}】\n ${$.message}`)
+    $.log(`【账号${$.name}${$.index} ${$.userName}】\n ${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元\n ${$.message}`)
   }
 }
 
@@ -328,6 +327,7 @@ async function jkd() {
   await userLive(body)
   $.log(`本次运行完成，共计获得 ${$.profit} 金币`)
   $.message += `本次运行获得 ${$.profit} 金币\n`
+  await getUserInfo()
 }
 
 function userLive(body) {
