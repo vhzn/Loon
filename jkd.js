@@ -124,6 +124,7 @@ if (typeof $request !== 'undefined') {
         } else $.uuid = ""
         await getOpenId()
         $.index = i + 1;
+        $.message = ''
         if (!$.openId) {
           console.log(`Cookies${$.index}已失效！`)
           break
@@ -136,8 +137,10 @@ if (typeof $request !== 'undefined') {
               "videotime" : 0,
             }
             $.log('当日liveBody不存在，新建')
+            $.isSign = false
           }else{
             $.log('当日liveBody已存在')
+            $.isSign = true
           }
         } else{
           liveBody[$.openId] = {}
@@ -147,10 +150,12 @@ if (typeof $request !== 'undefined') {
             "videotime" : 0,
           }
           $.log('当日liveBody不存在，新建')
+          $.isSign = false
         }
         await getUserInfo()
         console.log(`\n******开始【聚看点账号${$.index}】${$.userName || $.openId}*********\n`);
         console.log(`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`)
+        $.message += `${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元\n`
         $.iOS = true
         if (cookie.indexOf('iOS') > 0) {
           console.log(`${$.userName}的cookie来自iOS客户端`)
@@ -164,6 +169,7 @@ if (typeof $request !== 'undefined') {
           console.log(`无法获取客户端标示，请检查cookie是否正确`)
         }
         await jkd()
+        await showMsg()
       }
     }
   })()
@@ -215,8 +221,17 @@ function requireConfig(){
   }
 }
 
+function showMsg(){
+  if(!$.isNode()) {
+    $.msg(`【账号${$.name}${$.index} ${$.userName}】`, $.message)
+  }else{
+    $.log(`【账号${$.name}${$.index} ${$.userName}】\n ${$.message}`)
+  }
+}
+
 async function jkd() {
   let st = new Date().getTime()
+  await call3($.uuid,"OPEN_APP")
   if (sum !== 0 && $.current > sum) {
     console.log(`触发提现条件，去提现`)
     await withDraw()
@@ -259,10 +274,10 @@ async function jkd() {
         $.log(`观看视屏次数已满，跳出`)
         break
       }
-      // await call1(artId)
+      await call1($.uuid,artId)
       await getVideo(artId, true)
-      // await video(artId)
-      // await call1(uuid)
+      await video(artId)
+      await call1($.uuid)
       await $.wait(31 * 1000)
       await videoAccount(artId)
       await $.wait(5 * 1000)
@@ -309,8 +324,10 @@ async function jkd() {
     'addarticletime': (addArticleTime*1000).toString(),
     'addvideotime': (addVideoTime*1000).toString(),
   }
+  $.message += `本次运行增加活跃时间 ${addLiveTime} 秒\n`
   await userLive(body)
   $.log(`本次运行完成，共计获得 ${$.profit} 金币`)
+  $.message += `本次运行获得 ${$.profit} 金币\n`
 }
 
 function userLive(body) {
@@ -529,7 +546,7 @@ function getOpenId() {
           if ($.openId) {
             $.log(`获取openId成功`)
           }
-          $.isSign = data.match(/var issign = parseInt\("(.*)"\)/)[1]
+          // $.isSign = data.match(/var issign = parseInt\("(.*)"\)/)[1]
           $.videoPacketNum = data.match(/var videoPacketNum = (\S*);/)[1]
           $.newsTaskNum = data.match(/var newsTaskNum = (\S*);/)[1]
           $.luckyDrawNum = (data.match(/var luckDrawTaskNum = (\S*);/)[1])
@@ -597,7 +614,8 @@ function sign() {
             data = JSON.parse(data);
             if (data['ret'] === 'ok') {
               $.profit += data.datas.signAmt
-              $.log(`签到成功，获得 ${data.datas.signAmt} 金币，已签到 ${data.datas.signDays}天，下次签到金币：${data.datas.nextSignAmt}`)
+              $.log(`签到成功，获得 ${data.datas.signAmt} 金币，已签到 ${data.datas.signDays} 天，下次签到金币：${data.datas.nextSignAmt}`)
+              $.message += `签到成功，获得 ${data.datas.signAmt} 金币，已签到 ${data.datas.signDays} 天，下次签到金币：${data.datas.nextSignAmt}\n`
               $.log(`去做签到分享任务`)
               await signShare(data.datas.position)
             } else {
@@ -962,7 +980,7 @@ function getStageReward(stage) {
   })
 }
 
-function call2(uuid) {
+function call2(uuid, opttype="ART_READ") {
   let body = {
     "openID": $.openId,
     "openid": $.openId,
@@ -983,7 +1001,7 @@ function call2(uuid) {
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/minfo/call.action",
-      `jdata=${escape(JSON.stringify(body))}&opttype=ART_READ`),
+      `jdata=${escape(JSON.stringify(body))}&opttype=${opttype}&optversion=1.0`),
       async (err, resp, data) => {
         try {
           if (err) {
@@ -993,9 +1011,15 @@ function call2(uuid) {
             if (safeGet(data)) {
               data = JSON.parse(data);
               if (data['ret'] === 'ok') {
-                $.artcount = data.datas.artcount
-                $.videocount = data.datas.videocount
-                $.log(`文章剩余观看次数：${$.artcount}，视频剩余观看次数：${$.videocount}`)
+                if(opttype==='ART_READ') {
+                  $.artcount = data.datas.artcount
+                  $.videocount = data.datas.videocount
+                  $.log(`文章剩余观看次数：${$.artcount}，视频剩余观看次数：${$.videocount}`)
+                }else{
+                  console.log(`动作${opttype}记录成功！`)
+                }
+              }else{
+                console.log(data)
               }
             }
           }
@@ -1007,8 +1031,7 @@ function call2(uuid) {
       })
   })
 }
-
-function call1(uuid, article_id) {
+function call3(uuid, opttype="ART_READ") {
   let body = {
     "openID": $.openId,
     "openid": $.openId,
@@ -1024,13 +1047,64 @@ function call1(uuid, article_id) {
       "uniqueid": uuid,
       "os": $.iOS ? "iOS" : "android",
       "channel": $.iOS ? "iOS" : "android",
-      "openid": $.openId,
-      "article_id": article_id
+      "openid": $.openId
     }
   }
   return new Promise(resolve => {
+    $.post(taskPostUrl("jkd/minfo/call2.action",
+      `jdata=${escape(JSON.stringify(body))}&opttype=${opttype}&optversion=1.0`),
+      async (err, resp, data) => {
+        try {
+          if (err) {
+            $.log(`${JSON.stringify(err)}`)
+            $.log(`${$.name} API请求失败，请检查网路重试`)
+          } else {
+            if (safeGet(data)) {
+              data = JSON.parse(data);
+              if (data['ret'] === 'ok') {
+                if(opttype==='ART_READ') {
+                  $.artcount = data.datas.artcount
+                  $.videocount = data.datas.videocount
+                  $.log(`文章剩余观看次数：${$.artcount}，视频剩余观看次数：${$.videocount}`)
+                }else{
+                  console.log(`动作${opttype}记录成功！`)
+                }
+              }else{
+                console.log(data)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve(data);
+        }
+      })
+  })
+}
+function call1(uuid, article_id, opttype="INF_ART_COMMENTS") {
+  let body = {
+    "openID": $.openId,
+    "openid": $.openId,
+    "app_id": "xzwl",
+    "version_token": `${$.version}`,
+    "channel": $.iOS ? "iOS" : "android",
+    "vercode": `${$.version}`,
+    "psign": "92dea068b6c271161be05ed358b59932",
+    "app_token": "xzwltoken070704",
+    "version": $.version.toString().split('').join('.'),
+    "pars": {
+      "openID": $.openId,
+      "uniqueid": uuid,
+      "os": $.iOS ? "iOS" : "android",
+      "channel": $.iOS ? "iOS" : "android",
+      "openid": $.openId
+    }
+  }
+  if(article_id) body['pars']['article_id'] = article_id
+  return new Promise(resolve => {
     $.post(taskPostUrl("jkd/minfo/call.action",
-      `jdata=${escape(JSON.stringify(body))}&opttype=INF_ART_COMMENTS`),
+      `jdata=${escape(JSON.stringify(body))}&opttype=${opttype}`),
       async (err, resp, data) => {
         try {
           if (err) {
