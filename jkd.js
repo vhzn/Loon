@@ -9,19 +9,19 @@ JKD_USER_AGENT 用户ua，默认为ios
 JKD_WITHDRAW 提现金额
 ================Qx==============
 [task_local]
-0,30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
+0,30 7-22/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
 [rewrite_local]
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ================Loon==============
 [Script]
 http-request https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action  script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, requires-body=true, timeout=100, tag=聚看点
-cron "0,30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+cron "0,30 7-22/1 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============Surge=================
 [Script]
 聚看点 = type=http-request,pattern=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action ,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
-聚看点 = type=cron,cronexp="0,30 * * * *",wake-system=1,timeout=900,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
+聚看点 = type=cron,cronexp="0,30 7-22/1 * * *",wake-system=1,timeout=900,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js
 
 ===============MITM=================
 [MITM]
