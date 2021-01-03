@@ -37,7 +37,7 @@ let cookiesArr = [
   // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号1ck）
   // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号2ck）
 ], cookie = '', message;
-
+let notify = !$.isNode()?$.getdata("JKD_MSG"):true
 async function getCookie() {
   if ($request && $request.method !== `OPTIONS`) {
     const bodyVal = $request.body
@@ -221,7 +221,7 @@ function requireConfig(){
 }
 
 function showMsg(){
-  if(!$.isNode()) {
+  if(!$.isNode() || notify) {
     $.msg(`【账号${$.name}${$.index} ${$.userName}】`,`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`, $.message)
   }else{
     $.log(`【账号${$.name}${$.index} ${$.userName}】\n ${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元\n ${$.message}`)
