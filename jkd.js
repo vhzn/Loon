@@ -7,6 +7,7 @@
 JKD_COOKIE cookies，可选择用&、@、换行隔开
 JKD_USER_AGENT 用户ua，默认为ios
 JKD_WITHDRAW 提现金额
+JKD_FAKE_IOS 将安卓cookie伪装成iOS 默认伪装，填写任意值
 ================Qx==============
 [task_local]
 0,30 7-22/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js, tag=聚看点
@@ -29,15 +30,16 @@ hostname = www.xiaodouzhuan.cn
 */
 const API_HOST = 'https://www.xiaodouzhuan.cn'
 let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
-const DATE = `${new Date().getUTCFullYear()}${(new Date().getUTCMonth()+1).toString().padStart(2,"0")}${new Date().getUTCDate().toString().padStart(2,"0")}`
+const DATE = `${new Date().getUTCFullYear()}${(new Date().getUTCMonth() + 1).toString().padStart(2, "0")}${new Date().getUTCDate().toString().padStart(2, "0")}`
 let liveBody = null, fakeIOS = true
 const $ = new Env("聚看点")
 let sum = 0
 let cookiesArr = [
-  // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号1ck）
+  'xz_jkd_appkey=866bd92d45bf46eaad8bc598f7181ac4!android!753; xz_jkd_appkey=866bd92d45bf46eaad8bc598f7181ac4!android!753; newkey=1; JSESSIONID=F62758F4BE5F5401976747E39CA8E4A4;'
   // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号2ck）
 ], cookie = '', message;
-let notify = !$.isNode()?$.getdata("JKD_MSG"):true
+let notify = !$.isNode() ? $.getdata("JKD_MSG") : true
+
 async function getCookie() {
   if ($request && $request.method !== `OPTIONS`) {
     const bodyVal = $request.body
@@ -107,7 +109,7 @@ if (typeof $request !== 'undefined') {
       let cookiesData = $.getdata('CookiesJKD2') || "[]";
       sum = $.getdata("JKD_WITHDRAW") || 0;
       cookiesData = jsonParse(cookiesData);
-      cookiesArr = cookiesData.length>0?cookiesData:cookiesArr;
+      cookiesArr = cookiesData.length > 0 ? cookiesData : cookiesArr;
       cookiesArr.reverse();
       cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
     }
@@ -129,25 +131,25 @@ if (typeof $request !== 'undefined') {
           console.log(`Cookies${$.index}已失效！`)
           break
         }
-        if(liveBody[$.openId]){
-          if(!liveBody[$.openId][DATE]) {
+        if (liveBody[$.openId]) {
+          if (!liveBody[$.openId][DATE]) {
             liveBody[$.openId][DATE] = {
-              "livetime" : 0,
-              "articletime" : 0,
-              "videotime" : 0,
+              "livetime": 0,
+              "articletime": 0,
+              "videotime": 0,
             }
             $.log('当日liveBody不存在，新建')
             $.isSign = false
-          }else{
+          } else {
             $.log('当日liveBody已存在')
             $.isSign = true
           }
-        } else{
+        } else {
           liveBody[$.openId] = {}
           liveBody[$.openId][DATE] = {
-            "livetime" : 0,
-            "articletime" : 0,
-            "videotime" : 0,
+            "livetime": 0,
+            "articletime": 0,
+            "videotime": 0,
           }
           $.log('当日liveBody不存在，新建')
           $.isSign = false
@@ -162,11 +164,13 @@ if (typeof $request !== 'undefined') {
         } else if (cookie.indexOf('android') > 0) {
           console.log(`${$.userName}的cookie来自安卓客户端`)
           // $.iOS = false
-          if(!fakeIOS)
+          if (!fakeIOS)
             UA = 'Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012)'
-          else
+          else {
+            console.log(`将cookie中的安卓标示替换为iOS`)
             cookie = cookie.replace('!android!753', '!iOS!5.6.5')
-        } else{
+          }
+        } else {
           console.log(`无法获取客户端标示，请检查cookie是否正确`)
         }
         await jkd()
@@ -177,13 +181,13 @@ if (typeof $request !== 'undefined') {
     .catch((e) => $.logErr(e))
     .finally(async () => {
 
-      if(!$.isNode()){
-        $.setdata(JSON.stringify(liveBody),"jkdLiveBody")
-      } else{
+      if (!$.isNode()) {
+        $.setdata(JSON.stringify(liveBody), "jkdLiveBody")
+      } else {
         const fs = require('fs');
         try {
           await fs.writeFileSync('jkd.json', JSON.stringify(liveBody));
-        } catch(err) {
+        } catch (err) {
           console.error(err)
         }
       }
@@ -191,50 +195,49 @@ if (typeof $request !== 'undefined') {
     })
 }
 
-function requireConfig(){
-  if(!$.isNode()){
-    if($.getdata("jkdLiveBody")!=null) {
+function requireConfig() {
+  if (!$.isNode()) {
+    if ($.getdata("jkdLiveBody") != null) {
       console.log('加载本地阅读时长body')
       liveBody = JSON.parse($.getdata("jkdLiveBody"))
-      if(liveBody===null){
+      if (liveBody === null) {
         liveBody = {}
       }
-    }
-    else {
+    } else {
       console.log('没有阅读时长body，新建')
       liveBody = {}
     }
-  } else{
+  } else {
     const fs = require('fs');
     try {
       if (!fs.existsSync('jkd.json')) {
         $.log('未找到活跃时间body，新建')
         liveBody = {}
-      } else{
+      } else {
         $.log('读取本地活跃时间body')
         let raw = fs.readFileSync('jkd.json').toString();
-        liveBody = JSON.parse(raw)?JSON.parse(raw):{}
+        liveBody = JSON.parse(raw) ? JSON.parse(raw) : {}
       }
-    } catch(err) {
+    } catch (err) {
       liveBody = {}
       console.error(err)
     }
-    if (process.env.JKD_FAKE_IOS !== undefined && process.env.JKD_FAKE_IOS !== null && process.env.JKD_FAKE_IOS !=='')
-      fakeIOS = process.env.JKD_FAKE_IOS
+    if (process.env.JKD_FAKE_IOS !== undefined && process.env.JKD_FAKE_IOS !== null && process.env.JKD_FAKE_IOS !== '')
+      fakeIOS = false
   }
 }
 
-function showMsg(){
-  if(!$.isNode() || notify) {
-    $.msg(`【账号${$.name}${$.index} ${$.userName}】`,`${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`, $.message)
-  }else{
+function showMsg() {
+  if (!$.isNode() || notify) {
+    $.msg(`【账号${$.name}${$.index} ${$.userName}】`, `${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元`, $.message)
+  } else {
     $.log(`【账号${$.name}${$.index} ${$.userName}】\n ${$.gold}，当前 ${$.current} 元，累计 ${$.sum} 元\n ${$.message}`)
   }
 }
 
 async function jkd() {
   let st = new Date().getTime()
-  await call3($.uuid,"OPEN_APP")
+  await call3($.uuid, "OPEN_APP")
   if (sum !== 0 && $.current > sum) {
     console.log(`触发提现条件，去提现`)
     await withDraw()
@@ -245,7 +248,7 @@ async function jkd() {
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
   $.luckyDrawNum = 50
-  if ($.luckyDrawNum > 0) {
+  /*if ($.luckyDrawNum > 0) {
     $.log(`去转转盘`)
     for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
       await getLuckyLevel()
@@ -277,7 +280,7 @@ async function jkd() {
         $.log(`观看视屏次数已满，跳出`)
         break
       }
-      await call1($.uuid,artId)
+      await call1($.uuid, artId)
       await getVideo(artId, true)
       await video(artId)
       await call1($.uuid)
@@ -287,7 +290,7 @@ async function jkd() {
     }
   }
   let etA = new Date().getTime()
-  let addArticleTime = Math.trunc((etA-stA)/1000)
+  let addArticleTime = Math.trunc((etA - stA) / 1000)
   $.artList = []
   // 看文章
   let stV = new Date().getTime()
@@ -311,21 +314,21 @@ async function jkd() {
     }
   }
   let etV = new Date().getTime()
-  let addVideoTime = Math.trunc((etV-stV)/1000)
+  let addVideoTime = Math.trunc((etV - stV) / 1000)
 
   await $.wait(1000)
   let et = new Date().getTime()
-  let addLiveTime = Math.trunc((et-st)/1000)
+  let addLiveTime = Math.trunc((et - st) / 1000)
   liveBody[$.openId][DATE]['livetime'] += addLiveTime
   liveBody[$.openId][DATE]['articletime'] += addArticleTime
   liveBody[$.openId][DATE]['videotime'] += addVideoTime
   let body = {
-    'livetime': (liveBody[$.openId][DATE]['livetime']*1000).toString(),
-    'articletime' : (liveBody[$.openId][DATE]['articletime']*1000).toString(),
-    'videotime': (liveBody[$.openId][DATE]['videotime']*1000).toString(),
-    'addlivetime': (addLiveTime*1000).toString(),
-    'addarticletime': (addArticleTime*1000).toString(),
-    'addvideotime': (addVideoTime*1000).toString(),
+    'livetime': (liveBody[$.openId][DATE]['livetime'] * 1000).toString(),
+    'articletime': (liveBody[$.openId][DATE]['articletime'] * 1000).toString(),
+    'videotime': (liveBody[$.openId][DATE]['videotime'] * 1000).toString(),
+    'addlivetime': (addLiveTime * 1000).toString(),
+    'addarticletime': (addArticleTime * 1000).toString(),
+    'addvideotime': (addVideoTime * 1000).toString(),
   }
   $.message += `本次运行增加活跃时间 ${addLiveTime} 秒\n`
   await userLive(body)
@@ -345,7 +348,7 @@ function userLive(body) {
     "time": new Date().getTime(),
     "apptoken": "xzwltoken070704",
     "appversion": $.version.toString().split('').join('.'),
-    "openid": "5575aa16cb974da4bd735f182fbffac5",
+    "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "opdate": `${DATE}`
   }
@@ -539,7 +542,7 @@ function doTask(taskId, taskName, action) {
 
 function getOpenId() {
   return new Promise(resolve => {
-    $.post(taskGetUrl("jkd/task/userSign.action", `channel=${$.iOS?"iOS":"android"}`), async (err, resp, data) => {
+    $.post(taskGetUrl("jkd/task/userSign.action", `channel=${$.iOS ? "iOS" : "android"}`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${JSON.stringify(err)}`)
@@ -984,7 +987,7 @@ function getStageReward(stage) {
   })
 }
 
-function call2(uuid, opttype="ART_READ") {
+function call2(uuid, opttype = "ART_READ") {
   let body = {
     "openID": $.openId,
     "openid": $.openId,
@@ -1015,14 +1018,14 @@ function call2(uuid, opttype="ART_READ") {
             if (safeGet(data)) {
               data = JSON.parse(data);
               if (data['ret'] === 'ok') {
-                if(opttype==='ART_READ') {
+                if (opttype === 'ART_READ') {
                   $.artcount = data.datas.artcount
                   $.videocount = data.datas.videocount
                   $.log(`文章剩余观看次数：${$.artcount}，视频剩余观看次数：${$.videocount}`)
-                }else{
+                } else {
                   console.log(`动作${opttype}记录成功！`)
                 }
-              }else{
+              } else {
                 console.log(data)
               }
             }
@@ -1035,7 +1038,8 @@ function call2(uuid, opttype="ART_READ") {
       })
   })
 }
-function call3(uuid, opttype="ART_READ") {
+
+function call3(uuid, opttype = "ART_READ") {
   let body = {
     "openID": $.openId,
     "openid": $.openId,
@@ -1066,14 +1070,14 @@ function call3(uuid, opttype="ART_READ") {
             if (safeGet(data)) {
               data = JSON.parse(data);
               if (data['ret'] === 'ok') {
-                if(opttype==='ART_READ') {
+                if (opttype === 'ART_READ') {
                   $.artcount = data.datas.artcount
                   $.videocount = data.datas.videocount
                   $.log(`文章剩余观看次数：${$.artcount}，视频剩余观看次数：${$.videocount}`)
-                }else{
+                } else {
                   console.log(`动作${opttype}记录成功！`)
                 }
-              }else{
+              } else {
                 console.log(data)
               }
             }
@@ -1086,7 +1090,8 @@ function call3(uuid, opttype="ART_READ") {
       })
   })
 }
-function call1(uuid, article_id, opttype="INF_ART_COMMENTS") {
+
+function call1(uuid, article_id, opttype = "INF_ART_COMMENTS") {
   let body = {
     "openID": $.openId,
     "openid": $.openId,
@@ -1105,7 +1110,7 @@ function call1(uuid, article_id, opttype="INF_ART_COMMENTS") {
       "openid": $.openId
     }
   }
-  if(article_id) body['pars']['article_id'] = article_id
+  if (article_id) body['pars']['article_id'] = article_id
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/minfo/call.action",
       `jdata=${escape(JSON.stringify(body))}&opttype=${opttype}`),
@@ -1130,7 +1135,7 @@ function call1(uuid, article_id, opttype="INF_ART_COMMENTS") {
 }
 
 function article(artId) {
-  let body = `articleid=${artId}&openID=${$.openId}&ce=${$.iOS?"iOS":"android"}&request_id=${new Date().getTime()}&scene_type=art_recommend_${$.iOS?"iOS":"android"}&articlevideo=0&version=${$.version}&account_type=1&channel=iOS&shade=1&a=zv8lS5d9LnyV7Bdoyt0NHQ==&font_size=1&scene_type=&request_id=${new Date().getTime()}`
+  let body = `articleid=${artId}&openID=${$.openId}&ce=${$.iOS ? "iOS" : "android"}&request_id=${new Date().getTime()}&scene_type=art_recommend_${$.iOS ? "iOS" : "android"}&articlevideo=0&version=${$.version}&account_type=1&channel=iOS&shade=1&a=zv8lS5d9LnyV7Bdoyt0NHQ==&font_size=1&scene_type=&request_id=${new Date().getTime()}`
   let config = {
     'url': 'https://www.jukandiannews.com/jkd/weixin20/station/stationarticle.action?' + body,
     'Host': 'www.jukandiannews.com',
