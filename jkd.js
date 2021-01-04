@@ -30,7 +30,7 @@ hostname = www.xiaodouzhuan.cn
 const API_HOST = 'https://www.xiaodouzhuan.cn'
 let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 const DATE = `${new Date().getUTCFullYear()}${(new Date().getUTCMonth()+1).toString().padStart(2,"0")}${new Date().getUTCDate().toString().padStart(2,"0")}`
-let liveBody = null
+let liveBody = null, fakeIOS = true
 const $ = new Env("聚看点")
 let sum = 0
 let cookiesArr = [
@@ -162,8 +162,10 @@ if (typeof $request !== 'undefined') {
         } else if (cookie.indexOf('android') > 0) {
           console.log(`${$.userName}的cookie来自安卓客户端`)
           // $.iOS = false
-          UA = 'Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012)'
-          // cookie = cookie.replace('!android!753', '!iOS!5.6.5')
+          if(!fakeIOS)
+            UA = 'Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012)'
+          else
+            cookie = cookie.replace('!android!753', '!iOS!5.6.5')
         } else{
           console.log(`无法获取客户端标示，请检查cookie是否正确`)
         }
@@ -217,6 +219,8 @@ function requireConfig(){
       liveBody = {}
       console.error(err)
     }
+    if (process.env.JKD_FAKE_IOS !== undefined && process.env.JKD_FAKE_IOS !== null && process.env.JKD_FAKE_IOS !=='')
+      fakeIOS = process.env.JKD_FAKE_IOS
   }
 }
 
