@@ -35,7 +35,7 @@ let liveBody = null, fakeIOS = true
 const $ = new Env("聚看点")
 let sum = 0
 let cookiesArr = [
-  'xz_jkd_appkey=866bd92d45bf46eaad8bc598f7181ac4!android!753; xz_jkd_appkey=866bd92d45bf46eaad8bc598f7181ac4!android!753; newkey=1; JSESSIONID=F62758F4BE5F5401976747E39CA8E4A4;'
+  // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号1ck）
   // '', // xz_jkd_appkey=xxx; JSESSIONID=xxx; UM_distinctid=xxx; （账号2ck）
 ], cookie = '', message;
 let notify = !$.isNode() ? $.getdata("JKD_MSG") : true
@@ -248,7 +248,7 @@ async function jkd() {
   $.log(`去领取阶段奖励`)
   await getStageState() // 阶段奖励
   $.luckyDrawNum = 50
-  /*if ($.luckyDrawNum > 0) {
+  if ($.luckyDrawNum > 0) {
     $.log(`去转转盘`)
     for (let i = 0; i < 10 && $.luckyDrawNum > 0; ++i) {
       await getLuckyLevel()
@@ -265,7 +265,7 @@ async function jkd() {
   }
   await openTimeBox()  // 宝箱
   await getTaskBoxProfit()  // 摇钱树1
-  await getTaskBoxProfit(2) // 摇钱树2*/
+  await getTaskBoxProfit(2) // 摇钱树2
   $.artList = []
   // 看视频
   let stA = new Date().getTime()
