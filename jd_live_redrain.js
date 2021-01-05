@@ -8,17 +8,17 @@
 ============Quantumultx===============
 [task_local]
 #超级直播间红包雨
-30,31 20-23/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+30,31 20-23/1 5 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "30,31 20-23/1 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
+cron "30,31 20-23/1 5 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
 
 ===============Surge=================
-超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 5 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
 
 ============小火箭=========
-超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 * * *", timeout=200, enable=true
+超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 5 1 *", timeout=200, enable=true
  */
 const $ = new Env('超级直播间红包雨');
 
@@ -105,7 +105,6 @@ function getRedRain() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            console.log(data)
             if (data.data && data.data.iconArea) {
               let act = data.data.iconArea.filter(vo=>vo['type']==="platform_red_packege_rain")[0]
               if (act) {
