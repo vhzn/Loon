@@ -350,7 +350,7 @@ function userLive(body) {
     "appversioncode": $.version,
     "time": new Date().getTime(),
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "opdate": `${DATE}`
@@ -443,7 +443,7 @@ function getTaskList() {
     "appversioncode": $.version,
     "time": new Date().getTime(),
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "listtype": "wealnews",
@@ -499,7 +499,7 @@ function doTask(taskId, taskName, action) {
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openID,
     "os": $.iOS ? "iOS" : "android",
     "operatepath": "adDetail",
@@ -580,7 +580,7 @@ function getUserInfo() {
     "psign": "92dea068b6c271161be05ed358b59932",
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/newMobileMenu/infoMe.action",
@@ -687,7 +687,7 @@ function signShare(position) {
     "position": position,
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/account/signShareAccount.action",
@@ -733,7 +733,7 @@ function adv(position) {
     "position": position,
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/newmobile/stimulateAdv.action",
@@ -810,7 +810,7 @@ function getArticleList(categoryId = 3) {
     "cateid": categoryId,
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "operatorType": 2,
     "page": 12
   }
@@ -849,7 +849,7 @@ function openTimeBox() {
     "psign": "92dea068b6c271161be05ed358b59932",
     "apptoken": "xzwltoken070704",
     "appid": "xzwl",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
   }
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/account/openTimeBoxAccount.action",
@@ -888,7 +888,7 @@ function getArticle(artId) {
   let body = {
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openId,
     "channel": $.iOS ? "iOS" : "android",
     "os": $.iOS ? "iOS" : "android",
@@ -932,7 +932,7 @@ function getVideo(artId) {
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "artid": artId,
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "relate": "1",
     "scenetype": ""
   }
@@ -1000,7 +1000,7 @@ function call2(uuid, opttype = "ART_READ") {
     "vercode": `${$.version}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "app_token": "xzwltoken070704",
-    "version": $.version.toString().split('').join('.'),
+    "version": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "pars": {
       "openID": $.openId,
       "uniqueid": uuid,
@@ -1052,7 +1052,7 @@ function call3(uuid, opttype = "ART_READ") {
     "vercode": `${$.version}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "app_token": "xzwltoken070704",
-    "version": $.version.toString().split('').join('.'),
+    "version": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "pars": {
       "openID": $.openId,
       "uniqueid": uuid,
@@ -1104,7 +1104,7 @@ function call1(uuid, article_id, opttype = "INF_ART_COMMENTS") {
     "vercode": `${$.version}`,
     "psign": "92dea068b6c271161be05ed358b59932",
     "app_token": "xzwltoken070704",
-    "version": $.version.toString().split('').join('.'),
+    "version": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "pars": {
       "openID": $.openId,
       "uniqueid": uuid,
@@ -1230,7 +1230,7 @@ function readAccount(artId, payType = 1) {
     "appversioncode": `${$.version}`,
     "time": `${new Date().getTime()}`,
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "artid": artId,
@@ -1278,7 +1278,7 @@ function videoAccount(artId) {
     "appversioncode": $.version,
     "time": new Date().toString(),
     "apptoken": "xzwltoken070704",
-    "appversion": $.version.toString().split('').join('.'),
+    "appversion": fakeIOS?'5.6.5':$.version.toString().split('').join('.'),
     "openid": $.openId,
     "os": $.iOS ? "iOS" : "android",
     "artid": artId,
