@@ -1448,22 +1448,14 @@ function getLuckyDrawBox(i) {
 function withDraw() {
   return new Promise(resolve => {
     $.post(taskPostUrl("jkd/weixin20/userWithdraw/userWithdrawPost.action",
-      `type=wx&sum=${sum}&mobile=&pid=0`), async (err, resp, data) => {
+      `type=wx&sum=${sum}&mobile=&pid=0&accountid=&productcode=`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${JSON.stringify(err)}`)
           $.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data['ret'] === 'ok') {
-              $.log(`提现成功`)
-            } else if (data['ret'] === 'fail') {
-              $.log(`提现失败，错误信息：${data.rtn_msg}`)
-            } else {
-              $.log(`未知错误：${JSON.stringify(data)}`)
-            }
-          }
+          $.log(`提现结果：${data}`)
+          message += `提现结果：${data}`
         }
       } catch (e) {
         $.logErr(e, resp)
