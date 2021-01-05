@@ -281,12 +281,10 @@ async function jkd() {
         break
       }
       $.log(`去看视频：${artId}`)
-      if (!fakeIOS) await call1($.uuid, artId)
+      await call1($.uuid, artId)
       await getVideo(artId, true)
-      if (!fakeIOS) {
-        await video(artId)
-        await call1($.uuid)
-      }
+      await video(artId)
+      await call1($.uuid)
       await $.wait(31 * 1000)
       await videoAccount(artId)
       await $.wait(5 * 1000)
