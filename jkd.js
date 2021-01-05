@@ -160,6 +160,7 @@ if (typeof $request !== 'undefined') {
         $.iOS = true
         if (cookie.indexOf('iOS') > 0) {
           console.log(`${$.userName}的cookie来自iOS客户端`)
+          fakeIOS = false
           UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
         } else if (cookie.indexOf('android') > 0) {
           console.log(`${$.userName}的cookie来自安卓客户端`)
@@ -274,16 +275,18 @@ async function jkd() {
     const art = $.artList[i]
     if (art['art_id']) {
       let artId = art['art_id']
-      $.log(`去看视频：${artId}`)
       await call2($.uuid)
       if ($.videocount === 0) {
         $.log(`观看视屏次数已满，跳出`)
         break
       }
-      await call1($.uuid, artId)
+      $.log(`去看视频：${artId}`)
+      if (fakeIOS) await call1($.uuid, artId)
       await getVideo(artId, true)
-      await video(artId)
-      await call1($.uuid)
+      if (fakeIOS) {
+        await video(artId)
+        await call1($.uuid)
+      }
       await $.wait(31 * 1000)
       await videoAccount(artId)
       await $.wait(5 * 1000)
@@ -1480,7 +1483,7 @@ function safeGet(data) {
     }
   } catch (e) {
     $.log(e);
-    $.log(`京东服务器访问数据为空，请检查自身设备网络情况`);
+    $.log(`聚看点服务器访问数据为空，请检查自身设备网络情况`);
     return false;
   }
 }
