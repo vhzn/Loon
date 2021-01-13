@@ -54,6 +54,8 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+
+  $.log('******  开始循环获取账号助力码  ******\n');
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -64,7 +66,7 @@ if ($.isNode()) {
       $.beans = 0
       message = '';
       await TotalBean();
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName} 获取助力码*********\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/`, {"open-url": "https://bean.m.jd.com/"});
         if ($.isNode()) {
@@ -72,12 +74,15 @@ if ($.isNode()) {
         } else {
           $.setdata('', `CookieJD${i ? i + 1 : ""}`);//cookie失效，故清空cookie。$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
         }
+        cookiesArr[i] = '';
         continue
       }
-      await jdMh()
+      await getInfo()
     }
   }
-  for (let i = 0; i < cookiesArr.length && helpList.length>0; i++) {
+
+  $.log('\n******  开始循环助力  ******\n');
+  for (let i = 0; i < cookiesArr.length && helpList.length > 0; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
@@ -86,55 +91,42 @@ if ($.isNode()) {
       $.nickName = '';
       $.beans = 0
       message = '';
-      await TotalBean();
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/`, {"open-url": "https://bean.m.jd.com/"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        } else {
-          $.setdata('', `CookieJD${i ? i + 1 : ""}`);//cookie失效，故清空cookie。$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
-        }
-        continue
-      }
+      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName} 助力*********\n`);
       await helpFriends()
     }
   }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
-async function jdMh() {
-  await getInfo()
-  await showMsg();
-}
 async function helpFriends() {
   $.hasDone = false
-  for(let i=0;i<helpList.length;i++ ){
+  for (let i = 0; i < helpList.length; i++) {
     let help = helpList[i];
     $.fullHelp = false;
     //跳过助力自己
-    if(help['userName'] === $.UserName){
-          continue;
+    if (help['idx'] === $.index) {
+      continue;
     }
-    console.log(`去助力${JSON.stringify(help)}`)
+    console.log(`准备助力：${JSON.stringify(help)}`)
     await assistFriend(help['inviteId'])
-    if($.hasDone){
+    if ($.hasDone) {
       console.log(`助力次数用完，跳出`)
       break
     }
     //删除助力已满的助力码
-    if($.fullHelp){
-        helpList.splice(i,1);
-        i--;
+    if ($.fullHelp) {
+      helpList.splice(i, 1);
+      i--;
     }
     await $.wait(3000)
   }
 }
+
 function showMsg() {
   return new Promise(resolve => {
     message += `本次运行获得${$.beans}京豆`
@@ -142,10 +134,11 @@ function showMsg() {
     resolve()
   })
 }
+
 function getInfo() {
   let body = 'body=%7B%22babelChannel%22%3A%22ttt1%22%2C%22posLng%22%3A%22118.762421%22%2C%22dogeVersion%22%3A%220.59.9%22%2C%22url%22%3A%22https%3A%5C%2F%5C%2Fpro.m.jd.com%5C%2Fmall%5C%2Factive%5C%2FegeJZimgxA33W2GtxU75yDbArhJ%5C%2Findex.html%3FbabelChannel%3Dttt1%22%2C%22fromWebView%22%3Atrue%2C%22homeLat%22%3A%2232.241882%22%2C%22riskParam%22%3A%7B%22eid%22%3A%22eidIF3CF0112RTIyQTVGQTEtRDVCQy00Qg%3D%3D6HAJa9%2B%5C%2F4Vedgo62xKQRoAb47%2Bpyu1EQs%5C%2F6971aUvk0BQAsZLyQAYeid%2BPgbJ9BQoY1RFtkLCLP5OMqU%22%2C%22shshshfpb%22%3A%22wjuHUTzOsYHeBKOguLSdXJ%2B4nn4hmDHyT1Yi4WCn5WNmcugPy8yZcOJrNLlpEaQXh2EHf5hl7o7ndGnFZT4D6Pg%3D%3D%22%2C%22childActivityUrl%22%3A%22https%3A%5C%2F%5C%2Fpro.m.jd.com%5C%2Fmall%5C%2Factive%5C%2FegeJZimgxA33W2GtxU75yDbArhJ%5C%2Findex.html%3FbabelChannel%3Dttt1%22%7D%2C%22homeLng%22%3A%22118.762421%22%2C%22action%22%3A%22to%22%2C%22category%22%3A%22jump%22%2C%22activityId%22%3A%22egeJZimgxA33W2GtxU75yDbArhJ%22%2C%22h5ToNative%22%3Atrue%2C%22topNavHeight%22%3A165%2C%22switchValue%22%3Atrue%2C%22geo%22%3A%7B%22lng%22%3A%22118.715949%22%2C%22lat%22%3A%2232.201066%22%7D%2C%22isQueryNative%22%3Atrue%2C%22userInterest%22%3A%7B%22plusNew%22%3A%220_0_0%22%2C%22payment%22%3A%220_0_0%22%2C%22whiteNote%22%3A%220_0_0%22%2C%22plusRenew%22%3A%223_0_0%22%7D%2C%22sourceApplication%22%3A%22%22%2C%22to%22%3A%22https%3A%5C%2F%5C%2Fpro.m.jd.com%5C%2Fmall%5C%2Factive%5C%2FegeJZimgxA33W2GtxU75yDbArhJ%5C%2Findex.html%3FbabelChannel%3Dttt1%22%2C%22statusBarHeight%22%3A60%2C%22pageTitleHeight%22%3A132%2C%22des%22%3A%22m%22%2C%22addressId%22%3A%22137923973%22%2C%22searchBoxHeight%22%3A168.91200000000001%2C%22posLat%22%3A%2232.241882%22%2C%22topNavStyle%22%3A%222%22%7D&build=167490&client=apple&clientVersion=9.3.2&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=7c436a1c6f8a5381e397c4f40af7a659&st=1610523756559&sv=111'
   return new Promise(resolve => {
-    $.post(taskPostUrl(null,body,'qryAppBabelFloors'),async(err,resp,data)=>{
+    $.post(taskPostUrl(null, body, 'qryAppBabelFloors'), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -153,9 +146,9 @@ function getInfo() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            let beanFloor = ['00854003','00848083','00852224','00851782']
-            for(let floor of data.floorList){
-              if(floor['adsList'] && beanFloor.includes(floor['adsList'][0]['name'])) {
+            let beanFloor = ['00854003', '00848083', '00852224', '00851782']
+            for (let floor of data.floorList) {
+              if (floor['adsList'] && beanFloor.includes(floor['adsList'][0]['name'])) {
                 await getHomeData(floor['adsList'][0]['name'])
                 await $.wait(1000)
               }
@@ -172,10 +165,11 @@ function getInfo() {
     })
   })
 }
-function getHomeData(activityId, inviteId=null){
-  let body = {"activityId":activityId,"inviteId":inviteId}
+
+function getHomeData(activityId, inviteId = null) {
+  let body = {"activityId": activityId, "inviteId": inviteId}
   return new Promise(resolve => {
-    $.post(taskPostUrl('venuscoupon_getHomeData',body),async(err,resp,data)=>{
+    $.post(taskPostUrl('venuscoupon_getHomeData', body), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -183,22 +177,22 @@ function getHomeData(activityId, inviteId=null){
         } else {
           if (data) {
             data = JSON.parse(data);
-            if(data.code===0&&data.data.bizCode===200){
+            if (data.code === 0 && data.data.bizCode === 200) {
               let res = data.data.result
-              if(res.beansInfo){
-                if(!res.assistList || (res.assistList && res.assistList.length < res.needAssistNum)){
+              if (res.beansInfo) {
+                if (!res.assistList || (res.assistList && res.assistList.length < res.needAssistNum)) {
                   console.log(`${activityId}助力尚未完成`)
                   let obj = {
-                    activityId:activityId,
-                    inviteId:res.inviteId,
-                    userName:$.UserName
+                    idx: $.index,
+                    activityId: activityId,
+                    inviteId: res.inviteId
                   }
                   console.log(`助力信息：${JSON.stringify(obj)}`)
                   helpList.push(obj)
-                } else{
+                } else {
                   console.log(`${activityId}助力已完成`)
                 }
-              }else{
+              } else {
                 console.log(`${activityId}无京豆`)
               }
             }
@@ -214,10 +208,11 @@ function getHomeData(activityId, inviteId=null){
     })
   })
 }
+
 function assistFriend(inviteId) {
-  let body = {"inviteId":inviteId}
+  let body = {"inviteId": inviteId}
   return new Promise(resolve => {
-    $.post(taskPostUrl('venuscoupon_assist',body),(err,resp,data)=>{
+    $.post(taskPostUrl('venuscoupon_assist', body), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -225,14 +220,19 @@ function assistFriend(inviteId) {
         } else {
           if (data) {
             data = JSON.parse(data);
-            if(data.code===0&&data.data.bizCode===200){
-              console.log(data.data.bizMsg)
-            }else{
-              if(data.data.bizMsg==='您今日助力次数已用完，明天再来哦')
-                $.hasDone = true
-              if(data.data.bizMsg==='来晚了，助力人数已满')
-                $.fullHelp = true
-              console.log(data.data.bizMsg);
+            if (data.code === 0) {
+              console.log(`助力结果：` + JSON.stringify(data.data));
+              switch (data.data.bizCode) {
+                case 3003: // { bizCode: 3003, bizMsg: '来晚了，助力人数已满', success: false },
+                  $.fullHelp = true
+                  break;
+                case 3004: // { bizCode: 3004, bizMsg: '您今日助力次数已用完，明天再来哦', success: false }
+                  $.hasDone = true
+                  break;
+                  // case 3002:
+                  // { bizCode: 3002, bizMsg: '不能给自己助力', success: false }
+                  // break;
+              }
             }
           } else {
             console.log(`京东服务器返回空数据`)
@@ -246,7 +246,8 @@ function assistFriend(inviteId) {
     })
   })
 }
-function taskUrl(function_id, body='') {
+
+function taskUrl(function_id, body = '') {
   body = `activeid=${$.info.activeId}&token=${$.info.actToken}&sceneval=2&shareid=&_=${new Date().getTime()}&callback=query&${body}`
   return {
     url: `https://wq.jd.com/activet2/piggybank/${function_id}?${body}`,
@@ -263,14 +264,14 @@ function taskUrl(function_id, body='') {
   }
 }
 
-function taskPostUrl(function_id, body = {}, function_id2=null) {
+function taskPostUrl(function_id, body = {}, function_id2 = null) {
   let url = `${JD_API_HOST}`;
   if (function_id2) {
     url += `?functionId=${function_id2}`;
   }
   return {
     url,
-    body: function_id2?body:`functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
+    body: function_id2 ? body : `functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
     headers: {
       "Cookie": cookie,
       "origin": "https://h5.m.jd.com",
