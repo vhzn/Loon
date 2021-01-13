@@ -19,7 +19,11 @@
     "download": "^8.0.0",
     "got": "^11.5.1",
     "http-server": "^0.12.3",
+    "mysql": "^2.18.1",
+    "node-telegram-bot-api": "^0.51.0",
     "request": "^2.88.2",
+    "socks5-https-client": "^1.2.1",
+    "telegram": "^1.0.0-alpha.2",
     "tough-cookie": "^4.0.0",
     "tunnel": "0.0.6"
   }
