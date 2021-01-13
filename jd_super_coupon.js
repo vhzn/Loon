@@ -77,7 +77,7 @@ if ($.isNode()) {
       await jdMh()
     }
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length && helpList.length>0; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
@@ -114,12 +114,23 @@ async function jdMh() {
 }
 async function helpFriends() {
   $.hasDone = false
-  for(let help of helpList){
+  for(let i=0;i<helpList.length;i++ ){
+    let help = helpList[i];
+    $.fullHelp = false;
+    //跳过助力自己
+    if(help['userName'] === $.UserName){
+          continue;
+    }
     console.log(`去助力${JSON.stringify(help)}`)
     await assistFriend(help['inviteId'])
     if($.hasDone){
       console.log(`助力次数用完，跳出`)
       break
+    }
+    //删除助力已满的助力码
+    if($.fullHelp){
+        helpList.splice(i,1);
+        i--;
     }
     await $.wait(3000)
   }
@@ -179,7 +190,8 @@ function getHomeData(activityId, inviteId=null){
                   console.log(`${activityId}助力尚未完成`)
                   let obj = {
                     activityId:activityId,
-                    inviteId:res.inviteId
+                    inviteId:res.inviteId,
+                    userName:$.UserName
                   }
                   console.log(`助力信息：${JSON.stringify(obj)}`)
                   helpList.push(obj)
@@ -218,7 +230,9 @@ function assistFriend(inviteId) {
             }else{
               if(data.data.bizMsg==='您今日助力次数已用完，明天再来哦')
                 $.hasDone = true
-              console.log(data.data.bizMsg)
+              if(data.data.bizMsg==='来晚了，助力人数已满')
+                $.fullHelp = true
+              console.log(data.data.bizMsg);
             }
           } else {
             console.log(`京东服务器返回空数据`)
