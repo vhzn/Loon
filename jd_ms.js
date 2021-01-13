@@ -12,7 +12,7 @@
 ============Quantumultx===============
 [task_local]
 #京东秒秒币
-1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img_url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 
 ================Loon==============
 [Script]
@@ -240,7 +240,7 @@ function doTask(body) {
 
 function showMsg() {
   return new Promise(resolve => {
-    message += `本次运行获得秒秒币${$.score-$.cur}枚`;
+    message += `本次运行获得秒秒币${$.score-$.cur}枚，共${$.score}枚`;
     $.msg($.name, '', `京东账号${$.index}${$.nickName}\n${message}`);
     resolve()
   })
