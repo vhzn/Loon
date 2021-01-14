@@ -4,6 +4,7 @@
  * @Last Modified by:   shylocks
  * @Last Modified time: 2021-01-11 18:25:41
  */
+if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 const $ = new Env('宠汪汪聚宝盆监控');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
