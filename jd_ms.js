@@ -24,7 +24,6 @@ cron "1 7 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/mai
 ============小火箭=========
 京东秒秒币 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, cronexpr="1 7 * * *", timeout=200, enable=true
  */
-if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 const $ = new Env('京东秒秒币');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -38,6 +37,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
+  if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 } else {
   let cookiesData = $.getdata('CookiesJD') || "[]";
   cookiesData = jsonParse(cookiesData);

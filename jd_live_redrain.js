@@ -20,7 +20,6 @@ cron "30,31 20-23/1 12 1 *" script-path=https://raw.githubusercontent.com/shyloc
 ============小火箭=========
 超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 12 1 *", timeout=200, enable=true
  */
-if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 const $ = new Env('超级直播间红包雨');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -36,6 +35,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
+  if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 }else {
   let cookiesData = $.getdata('CookiesJD') || "[]";
   cookiesData = jsonParse(cookiesData);
