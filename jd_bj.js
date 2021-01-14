@@ -27,13 +27,13 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 const ACT_ID = 'dz2012100000406401'
-if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
+  if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
 } else {
   let cookiesData = $.getdata('CookiesJD') || "[]";
   cookiesData = jsonParse(cookiesData);
