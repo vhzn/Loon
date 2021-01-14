@@ -18,7 +18,7 @@ cron "1 8,9 14-31/1 1 *" script-path=https://raw.githubusercontent.com/shylocks/
 宝洁美发屋 = type=cron,cronexp="1 8,9 14-31/1 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js
 
 ============小火箭=========
-宝洁美发屋 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, cronexpr="1 8* * *", timeout=200, enable=true
+宝洁美发屋 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, cronexpr="1 8,9 14-31/1 1 *", timeout=200, enable=true
  */
 const $ = new Env('宝洁美发屋');
 const notify = $.isNode() ? require('./sendNotify') : '';
