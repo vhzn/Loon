@@ -81,7 +81,7 @@ function GetCookie() {
             tipPrefix + CookieName + "Cookie成功 🎉"
           );
         } else if(!hasCk) {
-          for(let key of ["CookiesJD","CookiesJD2"]) {
+          for(let key of ["CookieJD","CookieJD2"]) {
             let ck = $.getdata(key);
             if (ck) {
               let Account = ck
@@ -91,11 +91,11 @@ function GetCookie() {
                 : null
               const verify = EncodeName === Account && ck.indexOf(CookieValue) === -1;
               if (verify) {
-                $.setdata(ck + CookieValue, key)
+                $.setdata(ck.match(/pt_key=.+?;/) + ck.match(/pt_pin=.+?;/) + CookieValue, key)
                 $.msg(
                   "用户名: " + DecodeName,
                   "",
-                  tipPrefix + CookieName + "Cookie成功 🎉"
+                  "微信Cookie获取成功 🎉"
                 );
               }
             }
