@@ -8,25 +8,23 @@
 ============Quantumultx===============
 [task_local]
 #超级直播间红包雨
-30,31 20-23/1 12 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+30,31 20-23/1 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "30,31 20-23/1 12 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
+cron "30,31 20-23/1 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
 
 ===============Surge=================
-超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 12 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 15 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
 
 ============小火箭=========
-超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 12 1 *", timeout=200, enable=true
+超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 15 1 *", timeout=200, enable=true
  */
 const $ = new Env('超级直播间红包雨');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const randomCount = $.isNode() ? 20 : 5;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -96,7 +94,7 @@ function showMsg() {
 }
 
 function getRedRain() {
-  let body = 'body=%7B%22liveId%22%3A%223277122%22%7D&build=167490&client=apple&clientVersion=9.3.2&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=681f0e53c26939db8468a657dd49eaf3&st=1610454223370&sv=122'
+  let body = 'body=%7B%22liveId%22%3A%223316650%22%7D&build=167490&client=apple&clientVersion=9.3.2&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=f9454cb822adec3cb255f3176eb4b736&st=1610712755247&sv=110'
   return new Promise(resolve => {
     $.post(taskPostUrl('liveActivityV842', body), (err, resp, data) => {
       try {
