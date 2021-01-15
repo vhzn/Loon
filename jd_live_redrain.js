@@ -44,6 +44,11 @@ if ($.isNode()) {
   cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
+let ids = {
+  '21': 'RRA42SucXFqAPggaoYP4c3JYZLHGbkG',
+  '22': 'RRAPZRA9mVCzpjH38RUBPseJiZ6oj8',
+  '23': 'RRA4AmPxr1Qv1vTDpFgNS57rjn1mjGQ',
+}
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
@@ -52,6 +57,21 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
   await getRedRain();
 
   if(!$.activityId) return
+  let nowTs = new Date().getTime()
+  if (!($.st <= nowTs && nowTs < $.ed)) {
+    $.log(`远程红包雨配置获取错误，从本地读取配置`)
+    $.log(`\n`)
+    let hour = (new Date().getUTCHours() + 8) %24
+    if (ids[hour]){
+      $.activityId = ids[hour]
+      $.log(`本地红包雨配置获取成功`)
+    } else{
+      $.log(`无法从本地读取配置，请检查运行时间`)
+      return
+    }
+  } else{
+    $.log(`远程红包雨配置获取成功`)
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -109,12 +129,12 @@ function getRedRain() {
               if (act) {
                 let url = act.data.activityUrl
                 $.activityId = url.substr(url.indexOf("id=") + 3)
-                $.startTime = act.startTime
-                $.endTime = act.endTime
+                $.st = act.startTime
+                $.ed = act.endTime
                 console.log($.activityId)
 
-                console.log(`下一场红包雨开始时间：${new Date(act.startTime)}`)
-                console.log(`下一场红包雨结束时间：${new Date(act.endTime)}`)
+                console.log(`下一场红包雨开始时间：${new Date($.st)}`)
+                console.log(`下一场红包雨结束时间：${new Date($.ed)}`)
               } else {
                 console.log(`暂无红包雨`)
               }
