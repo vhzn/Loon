@@ -12,17 +12,17 @@
 ============Quantumultx===============
 [task_local]
 #幸运值抽京豆
-10 20 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, tag=幸运值抽京豆, enabled=true
+10 20 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, tag=幸运值抽京豆, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 20 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js,tag=幸运值抽京豆
+cron "10 20 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js,tag=幸运值抽京豆
 
 ===============Surge=================
-幸运值抽京豆 = type=cron,cronexp="10 20 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js
+幸运值抽京豆 = type=cron,cronexp="10 20 15 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js
 
 ============小火箭=========
-幸运值抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
+幸运值抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
  */
 const $ = new Env('幸运值抽京豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
