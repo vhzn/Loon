@@ -68,7 +68,7 @@ function GetCookie() {
         });
         var tipPrefix = "";
         if (updateCodkie) {
-          updateCookiesData[updateIndex].cookie = updateCookiesData[updateIndex].cookie.match(/pt_key=.+?;/) + CV.match(/pt_pin=.+?;/) + CookieValue;
+          updateCookiesData[updateIndex].cookie = updateCookiesData[updateIndex].cookie.match(/pt_key=.+?;/) + updateCookiesData[updateIndex].cookie.match(/pt_pin=.+?;/) + CookieValue;
           CookieName = `【账号${updateIndex + 1}】`;
           tipPrefix = "更新京东微信";
           const cacheValue = JSON.stringify(updateCookiesData, null, "\t");
