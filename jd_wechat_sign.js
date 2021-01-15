@@ -50,6 +50,7 @@ function GetCookie() {
         var DecodeName = decodeURIComponent(UserName);
         var EncodeName = encodeURIComponent(UserName)
         var CookiesData = getCache();
+        let hasCk = false
         var updateCookiesData = [...CookiesData];
         var updateIndex;
         var CookieName = "【账号】";
@@ -61,6 +62,7 @@ function GetCookie() {
               : null
             : null;
           const verify = EncodeName === Account && ck.indexOf(CookieValue) === -1;
+          if (ck.indexOf(CookieValue)>-1) hasCk = true
           if (verify) {
             updateIndex = index;
           }
@@ -78,7 +80,7 @@ function GetCookie() {
             "",
             tipPrefix + CookieName + "Cookie成功 🎉"
           );
-        } else {
+        } else if(!hasCk) {
           $.msg(
             "用户名: " + DecodeName,
             "",
