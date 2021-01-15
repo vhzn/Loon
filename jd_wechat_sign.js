@@ -47,7 +47,6 @@ function GetCookie() {
       if (CV.match(/(wq_skey=.+?wq_uin=|wq_uin=.+?wq_skey=)/)) {
         var CookieValue = CV.match(/wq_skey=.+?;/) + CV.match(/wq_uin=.+?;/);
         var UserName = CV.match(/jdpin=(.+?);/)[1];
-        console.log(UserName)
         var DecodeName = decodeURIComponent(UserName);
         var CookiesData = getCache();
         var updateCookiesData = [...CookiesData];
@@ -60,7 +59,7 @@ function GetCookie() {
               ? ck.match(/pt_pin=(.+?);/)[1]
               : null
             : null;
-          const verify = UserName === Account;
+          const verify = DecodeName === Account;
           if (verify) {
             updateIndex = index;
           }
