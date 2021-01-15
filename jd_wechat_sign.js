@@ -81,13 +81,26 @@ function GetCookie() {
             tipPrefix + CookieName + "Cookie成功 🎉"
           );
         } else if(!hasCk) {
-          $.msg(
-            "用户名: " + DecodeName,
-            "",
-            "请先获取京东Cookie"
-          );
+          for(let key of ["CookiesJD","CookiesJD2"]) {
+            let ck = $.getdata(key);
+            if (ck) {
+              let Account = ck
+                ? ck.match(/pt_pin=.+?;/)
+                  ? ck.match(/pt_pin=(.+?);/)[1]
+                  : null
+                : null
+              const verify = EncodeName === Account && ck.indexOf(CookieValue) === -1;
+              if (verify) {
+                $.setdata(ck + CookieValue, key)
+                $.msg(
+                  "用户名: " + DecodeName,
+                  "",
+                  tipPrefix + CookieName + "Cookie成功 🎉"
+                );
+              }
+            }
+          }
         }
-
       } else {
         $.msg("写入京东微信Cookie失败", "", "请查看脚本内说明, 登录网页获取 ‼️");
       }
