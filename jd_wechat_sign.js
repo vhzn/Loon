@@ -48,20 +48,19 @@ function GetCookie() {
         var CookieValue = CV.match(/wq_skey=.+?;/) + CV.match(/wq_uin=.+?;/);
         var UserName = CV.match(/jdpin=(.+?);/)[1];
         var DecodeName = decodeURIComponent(UserName);
-        console.log(UserName, DecodeName)
+        var EncodeName = encodeURIComponent(UserName)
         var CookiesData = getCache();
         var updateCookiesData = [...CookiesData];
         var updateIndex;
         var CookieName = "【账号】";
         var updateCodkie = CookiesData.find((item, index) => {
-          console.log(item)
           var ck = item.cookie;
           var Account = ck
             ? ck.match(/pt_pin=.+?;/)
               ? ck.match(/pt_pin=(.+?);/)[1]
               : null
             : null;
-          const verify = DecodeName === Account;
+          const verify = EncodeName === Account;
           if (verify) {
             updateIndex = index;
           }
