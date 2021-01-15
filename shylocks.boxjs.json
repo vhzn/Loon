@@ -43,6 +43,24 @@
         }],
       "icons": [],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jkd.js"
+    },
+    {
+      "id": "jd_wechat_sign",
+      "name": "京东粉丝专享",
+      "keys": ["JDWECHATEXCHANGE"],
+      "author": "@shylocks",
+      "repo": "https://github.com/shylocks/Loon/blob/main/jd_wechat_sign.js",
+      "settings": [
+        {
+          "id": "JDWECHATEXCHANGE",
+          "name": "京东粉丝专享兑换京豆开关",
+          "val": "",
+          "type": "number",
+          "placeholder": "",
+          "desc": "1兑换京豆，0不兑换京豆"
+        }],
+      "icons": [],
+      "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js"
     }
   ]
 }
