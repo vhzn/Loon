@@ -61,6 +61,24 @@
         }],
       "icons": [],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js"
+    },
+    {
+      "id": "jd_gyec",
+      "name": "工业品爱消除",
+      "keys": ["JDGYEC"],
+      "author": "@shylocks",
+      "repo": "https://github.com/shylocks/Loon/blob/main/jd_gyec.js",
+      "settings": [
+        {
+          "id": "JDGYEC",
+          "name": "京东粉丝专享兑换京豆开关",
+          "val": "",
+          "type": "string",
+          "placeholder": "",
+          "desc": "填写具体兑换商品的名称，默认为1888京豆"
+        }],
+      "icons": [],
+      "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js"
     }
   ]
 }
