@@ -15,17 +15,17 @@ boxjs 填写具体兑换商品的名称，默认为1888京豆
 ============Quantumultx===============
 [task_local]
 #工业品爱消除
-30 * * * * https://raw.githubusercontent.com/shylocks/jd_scripts/Loon/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_gyxxl.png, enabled=true
+30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_gyxxl.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/jd_scripts/Loon/jd_gyec.js,tag=工业品爱消除
+cron "30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js,tag=工业品爱消除
 
 ===============Surge=================
-工业品爱消除 = type=cron,cronexp="30 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/jd_scripts/Loon/jd_gyec.js
+工业品爱消除 = type=cron,cronexp="30 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js
 
 ============小火箭=========
-工业品爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/jd_scripts/Loon/jd_gyec.js, cronexpr="30 * * * *", timeout=200, enable=true
+工业品爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, cronexpr="30 * * * *", timeout=200, enable=true
  */
 const $ = new Env('工业品爱消除');
 const notify = $.isNode() ? require('./sendNotify') : '';
