@@ -1,0 +1,12 @@
+{
+  "name": "shylocks task gallery",
+  "description": "https://github.com/LXK9301/jd_scripts",
+  "task": [
+    "1 8,9 14-31/1 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, tag=宝洁美发屋, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_bj.png, enabled=true",
+    "30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_gyxxl.png, enabled=true",
+    "30,31 20-23/1 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_live_redrain.png, enabled=true",
+    "1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, tag=盲盒抽京豆, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_mh.png, enabled=true",
+    "1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_ms.png, enabled=true",
+    "1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_wechat_sign.png, enabled=true",
+  ]
+}
