@@ -37,3 +37,19 @@ for file in `ls | grep jd_ $1`
         done
 echo '  ]\n}' >> $qx
 git add $qx
+
+# Surge
+surge=./surge/shylocks_Task.sgmodule.sgmodule
+rm $surge
+echo "#!name=shylocks iOS Tasks Module" >> $surge
+echo "#!desc=iOS Tasks 模块配置" >> $surge
+echo '[Script]' >> $surge
+
+for file in `ls | grep jd_ $1`
+        do
+            task=$(cat $file | grep 'type=cron.*wake-system.*,')
+            if [ -n "$task" ]; then
+              echo $task>> $surge
+            fi
+        done
+git add $surge
