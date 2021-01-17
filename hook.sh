@@ -1,5 +1,5 @@
 # Loon
-loon=$loon
+loon=./loon/shylocks_LoonTask.conf
 rm $loon
 echo "hostname = api.m.jd.com, wq.jd.com\n" >> $loon
 
@@ -7,7 +7,6 @@ for file in `ls | grep jd_ $1`
         do
             test=$(cat $file | grep 'cron.*script-path=.*tag=.*')
             test2=$(cat $file | grep 'http-request.*tag=.*script-path=.*')
-            echo $test
               if [ -n "$test" ]; then
                 var=$(cat $file | grep -oEi 'new Env(.*)')
                 var=${var#*Env\(\'}
@@ -30,7 +29,7 @@ echo '  "task": [' >> $qx
 
 for file in `ls | grep jd_ $1`
         do
-            task=$(cat $file | grep 'tag=.*img-url=.*')
+            task=$(cat $file | grep 'tag=.*img-url=.*,')
             echo $task
             if [ -n "$task" ]; then
               echo '    "'$task'",'>> $qx
