@@ -5,26 +5,26 @@
  * @Last Modified time: 2021-01-15 20:04:41
  */
 /*
-超级直播间幸运值抽京豆，一次性活动，运行完30京豆
+超级直播间超级直播间幸运值抽京豆，一次性活动，运行完30京豆
 活动入口：https://anmp.jd.com/babelDiy/Zeus/3R4rXLC9SwEqeYQ11r8KtXRr1ooK/index.html
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
-#幸运值抽京豆
-10 20 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, tag=幸运值抽京豆, enabled=true
+#超级直播间幸运值抽京豆
+10 20 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, tag=超级直播间幸运值抽京豆, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 20 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js,tag=幸运值抽京豆
+cron "10 20 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js,tag=超级直播间幸运值抽京豆
 
 ===============Surge=================
-幸运值抽京豆 = type=cron,cronexp="10 20 15 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js
+超级直播间幸运值抽京豆 = type=cron,cronexp="10 20 15 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js
 
 ============小火箭=========
-幸运值抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
+超级直播间幸运值抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
  */
-const $ = new Env('幸运值抽京豆');
+const $ = new Env('超级直播间幸运值抽京豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
