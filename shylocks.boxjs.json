@@ -71,17 +71,38 @@
       "settings": [
         {
           "id": "JDGYEC",
-          "name": "京东粉丝专享兑换京豆开关",
+          "name": "工业品爱消除兑换商品名称",
           "val": "",
           "type": "string",
           "placeholder": "",
           "desc": "填写具体兑换商品的名称，默认为1888京豆"
         }],
       "icons": [
-        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_gyxxl.png",
+        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_gyec.png",
         "https://raw.githubusercontent.com/yogayyy/Scripts/main/Mini/shylocks/jd_gyxxl_mini.png"
       ],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js"
+    },
+    {
+      "id": "jd_xxl",
+      "name": "东东爱消除",
+      "keys": ["JDEC"],
+      "author": "@shylocks",
+      "repo": "https://github.com/shylocks/Loon/blob/main/jd_xxl.js",
+      "settings": [
+        {
+          "id": "JDEC",
+          "name": "东东爱消除兑换商品名称",
+          "val": "",
+          "type": "string",
+          "placeholder": "",
+          "desc": "填写具体兑换商品的名称，默认为1888京豆"
+        }],
+      "icons": [
+        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.png",
+        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Mini/shylocks/jd_xxl_mini.png"
+      ],
+      "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js"
     }
   ]
 }
