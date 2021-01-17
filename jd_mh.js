@@ -19,7 +19,7 @@
 cron "1 7 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js,tag=盲盒抽京豆
 
 ===============Surge=================
-盲盒抽京豆 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js
+盲盒抽京豆 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js
 
 ============小火箭=========
 盲盒抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true

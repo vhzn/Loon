@@ -15,7 +15,7 @@
 cron "30,31 20-23/1 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
 
 ===============Surge=================
-超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 15 1 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 15 1 *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
 
 ============小火箭=========
 超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 15 1 *", timeout=200, enable=true

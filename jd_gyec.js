@@ -22,7 +22,7 @@ boxjs 填写具体兑换商品的名称，默认为1888京豆
 cron "30 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js,tag=工业品爱消除
 
 ===============Surge=================
-工业品爱消除 = type=cron,cronexp="30 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js
+工业品爱消除 = type=cron,cronexp="30 * * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js
 
 ============小火箭=========
 工业品爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, cronexpr="30 * * * *", timeout=200, enable=true

@@ -18,17 +18,17 @@ hostname = wq.jd.com
 https:\/\/wq\.jd\.com\/bases\/jssdk\/GetWxJsApiSign url script-request-header https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js
 [task_local]
 #京东粉丝专享
-1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_wechat_sign.jpg, enabled=true
+10 0 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_wechat_sign.jpg, enabled=true
 
 ================Loon==============
 [Script]
 http-request https:\/\/wq\.jd\.com\/bases\/jssdk\/GetWxJsApiSign tag=获取京东微信ck, script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js
-cron "1 7 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js,tag=京东粉丝专享
+cron "10 0 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js,tag=京东粉丝专享
 
 ===============Surge=================
 [Script]
 获取京东微信ck = type=http-request,pattern=^https:\/\/wq\.jd\.com\/bases\/jssdk\/GetWxJsApiSign,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js,script-update-interval=0
-京东粉丝专享 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js
+京东粉丝专享 = type=cron,cronexp="10 0 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js
 */
 const $ = new Env('京东粉丝专享');
 const APIKey = "CookiesJD";
