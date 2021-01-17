@@ -12,7 +12,7 @@
 ============Quantumultx===============
 [task_local]
 #盲盒抽京豆
-1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, tag=盲盒抽京豆, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_mh.png, enabled=true
+1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh.js, tag=盲盒抽京豆, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_mh.jpg, enabled=true
 
 ================Loon==============
 [Script]

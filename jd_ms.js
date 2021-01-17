@@ -12,7 +12,7 @@
 ============Quantumultx===============
 [task_local]
 #京东秒秒币
-1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_ms.png, enabled=true
+1 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_ms.jpg, enabled=true
 
 ================Loon==============
 [Script]

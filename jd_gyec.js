@@ -15,7 +15,7 @@ boxjs 填写具体兑换商品的名称，默认为1888京豆
 ============Quantumultx===============
 [task_local]
 #工业品爱消除
-30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_gyxxl.png, enabled=true
+30 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylock/jd_gyxxl.jpg, enabled=true
 
 ================Loon==============
 [Script]
