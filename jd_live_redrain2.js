@@ -44,6 +44,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
 let ids = {
+  '19': 'RRArq4bmitwjmyDY8nrfASmKhoojen',
   '20': 'RRA3b7VFEeTmjy2tK2BPySVEqNeeTdA',
   '21': 'RRA2eQJiEhyy1WPx95M3QusCXkLstjw'
 }
