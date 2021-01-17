@@ -1,6 +1,6 @@
 /*
 直播间红包雨
-活动时间：1月17日-2月5日，每天19点、29点、21点
+活动时间：1月17日-2月5日，每天19点、20点、21点
 更新地址：https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain2.js
 已支持IOS双京东账号, Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
