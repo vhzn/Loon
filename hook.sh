@@ -24,7 +24,7 @@ qx=./quantumultx/shylocks_gallery.json
 rm $qx
 echo "{" >> $qx
 echo '  "name": "shylocks task gallery",' >> $qx
-echo '  "description": "https://github.com/LXK9301/jd_scripts",' >> $qx
+echo '  "description": "https://github.com/shylocks/Loon",' >> $qx
 echo '  "task": [' >> $qx
 
 for file in `ls | grep jd_ $1`
