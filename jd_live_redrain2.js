@@ -44,7 +44,8 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
 let ids = {
-  '20': 'RRA3b7VFEeTmjy2tK2BPySVEqNeeTdA'
+  '20': 'RRA3b7VFEeTmjy2tK2BPySVEqNeeTdA',
+  '21': 'RRA2eQJiEhyy1WPx95M3QusCXkLstjw'
 }
 !(async () => {
   if (!cookiesArr[0]) {
