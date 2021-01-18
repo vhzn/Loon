@@ -411,7 +411,7 @@ async function beginLevel() {
               } else if (data.code === 20001) {
                 console.log(`关卡开启失败，体力不足`)
               } else {
-                console.log(`关卡开启失败，错误信息：${JSON.stringify(data)}`)
+                console.log(`暂无每日挑战任务`)
               }
             }
           }
@@ -531,7 +531,7 @@ function finishTask(taskId) {
                 }
                 console.log(msg)
               } else {
-                console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+                // console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
               }
             }
           }
