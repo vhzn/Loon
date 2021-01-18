@@ -22,6 +22,9 @@
       "addons": "https://raw.githubusercontent.com/shylocks/Loon/main/quantumultx/jd_wechat_sign.qxrewrite, tag=jd_wechat_sign_COOKIE"
     },
     {
+      "config": "5 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js, tag=小鸽有礼, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xg.jpg, enabled=true"
+    },
+    {
       "config": "0 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.jpg, enabled=true"
     },
   ]
