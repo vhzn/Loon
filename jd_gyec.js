@@ -112,7 +112,7 @@ async function jdGy(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  //if (help) await helpFriends()
+  if (help) await helpFriends()
   // await marketGoods()
 }
 
