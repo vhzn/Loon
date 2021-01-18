@@ -24,7 +24,7 @@ cron "5 7 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/mai
 小鸽有礼 = type=cron,cronexp="5 7 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js
 
 ============小火箭=========
-小鸽有礼 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
+小鸽有礼 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js, cronexpr="5 7 * * *", timeout=200, enable=true
  */
 const $ = new Env('小鸽有礼');
 const notify = $.isNode() ? require('./sendNotify') : '';
