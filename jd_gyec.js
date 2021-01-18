@@ -598,7 +598,7 @@ function marketGoods() {
                   }
                 }
               } else {
-                console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+                // console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
               }
             }
           }
