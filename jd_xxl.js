@@ -12,7 +12,7 @@
 ============Quantumultx===============
 [task_local]
 #东东爱消除
-0 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, tag=东东爱消除, img_url=raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.jpg, enabled=true
+0 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.jpg, enabled=true
 
 ================Loon==============
 [Script]
