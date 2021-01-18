@@ -112,8 +112,8 @@ async function jdGy(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  if (help) await helpFriends()
-  await marketGoods()
+  //if (help) await helpFriends()
+  // await marketGoods()
 }
 
 async function helpFriends() {
@@ -262,7 +262,7 @@ function getTaskList() {
                 if (task.res.sName === "闯关集星") {
                   $.level = task.state.value + 1
                   console.log(`当前关卡：${$.level}`)
-                  while ($.strength >= 5 && $.level <= 240) {
+                  while ($.strength >= 5) {
                     await beginLevel()
                   }
                 } else if (task.res.sName === "逛逛店铺" || task.res.sName === "浏览会场") {
