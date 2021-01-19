@@ -21,6 +21,9 @@
       "config": "10 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_ms.jpg, enabled=true"
     },
     {
+      "config": "5 0 19,20 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_vote.js, tag=京年团圆pick, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_wechat_sign.jpg, enabled=true"
+    },
+    {
       "config": "10 0 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_wechat_sign.jpg, enabled=true",
       "addons": "https://raw.githubusercontent.com/shylocks/Loon/main/quantumultx/jd_wechat_sign.qxrewrite, tag=jd_wechat_sign_COOKIE"
     },
