@@ -1,7 +1,7 @@
 /*
 超级直播间红包雨
-每天20-23半点可领，每日上限未知
-活动时间：活动时间未知
+每天20-23半点可领
+活动时间：2021年1月19日
 更新地址：https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
 已支持IOS双京东账号, Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
