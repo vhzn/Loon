@@ -8,17 +8,17 @@
 ============Quantumultx===============
 [task_local]
 #超级直播间红包雨
-30,31 20-23/1 15 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_live_redrain.jpg, enabled=true
+30,31 20-23/1 19 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/shylocks/Loon/main/icons/jd_live_redrain_super.jpg, enabled=true
 
 ================Loon==============
 [Script]
-cron "30,31 20-23/1 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
+cron "30,31 20-23/1 19 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, tag=超级直播间红包雨
 
 ===============Surge=================
-超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 15 1 *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 19 1 *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js
 
 ============小火箭=========
-超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 15 1 *", timeout=200, enable=true
+超级直播间红包雨 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain.js, cronexpr="30,31 20-23/1 19 1 *", timeout=200, enable=true
  */
 const $ = new Env('超级直播间红包雨');
 
@@ -45,6 +45,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
 let ids = {
+  '20': 'RRA3q6FQPT9BKg4C6EyhA99TcA9K7SL',
   '21': 'RRA42SucXFqAPggaoYP4c3JYZLHGbkG',
   '22': 'RRAPZRA9mVCzpjH38RUBPseJiZ6oj8',
   '23': 'RRA4AmPxr1Qv1vTDpFgNS57rjn1mjGQ',
@@ -56,11 +57,9 @@ let ids = {
   }
   await getRedRain();
 
-  if(!$.activityId) return
   let nowTs = new Date().getTime()
   if (!($.st <= nowTs && nowTs < $.ed)) {
     $.log(`远程红包雨配置获取错误，从本地读取配置`)
-    $.log(`\n`)
     let hour = (new Date().getUTCHours() + 8) %24
     if (ids[hour]){
       $.activityId = ids[hour]
@@ -114,7 +113,7 @@ function showMsg() {
 }
 
 function getRedRain() {
-  let body = 'body=%7B%22liveId%22%3A%223316650%22%7D&build=167490&client=apple&clientVersion=9.3.2&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=f9454cb822adec3cb255f3176eb4b736&st=1610712755247&sv=110'
+  let body = 'body=%7B%22liveId%22%3A%223354354%22%7D&build=167515&client=apple&clientVersion=9.3.5&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=df0c0e02fa47742fd4a1ffe69649554b&st=1611057936144&sv=121'
   return new Promise(resolve => {
     $.post(taskPostUrl('liveActivityV842', body), (err, resp, data) => {
       try {
