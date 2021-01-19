@@ -16,13 +16,13 @@
 
 ================Loon==============
 [Script]
-cron "0 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=个护爱消除
+cron "40 * * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=个护爱消除
 
 ===============Surge=================
-个护爱消除 = type=cron,cronexp="0 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
+个护爱消除 = type=cron,cronexp="40 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
 
 ============小火箭=========
-个护爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="0 * * * *", timeout=200, enable=true
+个护爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="40 * * * *", timeout=200, enable=true
 
  */
 const $ = new Env('个护爱消除');
