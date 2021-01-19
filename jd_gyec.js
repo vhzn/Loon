@@ -277,7 +277,7 @@ function getTaskList() {
                   while ($.strength >= 5) {
                     await beginLevel()
                   }
-                  if($.not3Star.length){
+                  if($.not3Star.length && $.strength >= 5){
                     console.log(`去完成尚未三星的关卡`)
                     for(let level of $.not3Star){
                       $.level = parseInt(level)
