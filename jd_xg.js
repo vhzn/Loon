@@ -14,7 +14,7 @@
 ============Quantumultx===============
 [task_local]
 #小鸽有礼
-5 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js, tag=小鸽有礼, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xg.jpg, enabled=true
+5 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xg.js, tag=小鸽有礼, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xg.jpg, enabled=true
 
 ================Loon==============
 [Script]

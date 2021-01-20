@@ -14,7 +14,7 @@
 ============Quantumultx===============
 [task_local]
 #京年团圆pick
-5 0 19,20 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_vote.js, tag=京年团圆pick, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_wechat_sign.jpg, enabled=true
+5 0 19,20 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_vote.js, tag=京年团圆pick, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_wechat_sign.jpg, enabled=true
 
 ================Loon==============
 [Script]

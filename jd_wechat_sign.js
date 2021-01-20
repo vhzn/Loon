@@ -18,7 +18,7 @@ hostname = wq.jd.com
 https:\/\/wq\.jd\.com\/bases\/jssdk\/GetWxJsApiSign url script-request-header https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js
 [task_local]
 #京东粉丝专享
-10 0 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_wechat_sign.jpg, enabled=true
+10 0 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js, tag=京东粉丝专享, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_wechat_sign.jpg, enabled=true
 
 ================Loon==============
 [Script]

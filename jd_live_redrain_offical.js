@@ -7,7 +7,7 @@
 ============Quantumultx===============
 [task_local]
 #官方号直播红包雨
-0 0,9,11,13,15,17,19,20,21,23 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain_offical.js, tag=官方号直播红包雨, img-url=https://raw.githubusercontent.com/shylocks/Loon/main/icons/jd_live_redrain_offical.jpg, enabled=true
+0 0,9,11,13,15,17,19,20,21,23 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain_offical.js, tag=官方号直播红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_live_redrain_offical.jpg, enabled=true
 
 ================Loon==============
 [Script]

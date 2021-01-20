@@ -8,7 +8,7 @@
 ============Quantumultx===============
 [task_local]
 #宝洁美发屋
-1 8,9 14-31/1 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, tag=宝洁美发屋, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_bj.jpg, enabled=true
+1 8,9 14-31/1 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, tag=宝洁美发屋, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_bj.jpg, enabled=true
 
 ================Loon==============
 [Script]

@@ -7,7 +7,7 @@
 ============Quantumultx===============
 [task_local]
 #半点红包雨
-30,31 12-23/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain_half.js, tag=半点红包雨, img-url=https://raw.githubusercontent.com/shylocks/Loon/main/icons/jd_live_redrain_half.jpg, enabled=true
+30,31 12-23/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain_half.js, tag=半点红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_live_redrain_half.jpg, enabled=true
 
 ================Loon==============
 [Script]

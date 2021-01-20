@@ -59,7 +59,7 @@
           "placeholder": "",
           "desc": "1兑换京豆，0不兑换京豆"
         }],
-      "icons": "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_wechat_sign.png",
+      "icons": "https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_wechat_sign.png",
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_wechat_sign.js"
     },
     {
@@ -78,7 +78,7 @@
           "desc": "填写具体兑换商品的名称，默认为1888京豆"
         }],
       "icons": [
-        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_gyec.png",
+        "https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_gyec.png",
         "https://raw.githubusercontent.com/yogayyy/Scripts/main/Mini/shylocks/jd_gyxxl_mini.png"
       ],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js"
@@ -99,7 +99,7 @@
           "desc": "填写具体兑换商品的名称，默认为1888京豆"
         }],
       "icons": [
-        "https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.png",
+        "https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl.png",
         "https://raw.githubusercontent.com/yogayyy/Scripts/main/Mini/shylocks/jd_xxl_mini.png"
       ],
       "script": "https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js"

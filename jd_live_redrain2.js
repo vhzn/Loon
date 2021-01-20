@@ -7,7 +7,7 @@
 ============Quantumultx===============
 [task_local]
 #直播间红包雨
-0,1 19-21/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain2.js, tag=直播间红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_live_redrain.jpg, enabled=true
+0,1 19-21/1 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain2.js, tag=直播间红包雨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_live_redrain.jpg, enabled=true
 
 ================Loon==============
 [Script]
