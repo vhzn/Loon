@@ -12,7 +12,7 @@
 ============Quantumultx===============
 [task_local]
 #东东爱消除
-0 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/shylocks/jd_xxl.jpg, enabled=true
+0 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl.jpg, enabled=true
 
 ================Loon==============
 [Script]
@@ -34,8 +34,8 @@ let ACT_ID = 'A_112790_R_1_D_20201028'
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let inviteCodes = [
-  '840266@2585219@2586018@1556311@2583822@2585256',
-  '840266@2585219@2586018@1556311@2583822@2585256',
+  '840266@2585219@2586018@1556311@2583822@2585256@756497@1234613',
+  '840266@2585219@2586018@1556311@2583822@2585256@756497@1234613',
 ]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -94,7 +94,6 @@ function obj2param(obj) {
       }
       await shareCodesFormat()
       await jdBeauty()
-      await jdBeauty(false)
     }
   }
 })()
@@ -112,8 +111,9 @@ async function jdBeauty(help = true) {
   await getActInfo()
   await getTaskList()
   await getDailyMatch()
+  await play()
   // await marketGoods()
-  if(help)await helpFriends()
+  // if(help)await helpFriends()
 }
 async function helpFriends() {
   for (let code of $.newShareCodes) {
@@ -237,6 +237,10 @@ function checkLogin() {
                 $.not3Star.push(level.id)
               }
             }
+            if(data.role.allLevels.length)
+              $.level = parseInt(data.role.allLevels[data.role.allLevels.length-1]['id'])
+            else
+              $.level = 1
             if($.not3Star.length)
               console.log(`当前尚未三星的关卡为：${$.not3Star.join(',')}`)
             // SecrectUtil.InitEncryptInfo($.gameToken, $.gameId)
@@ -249,6 +253,22 @@ function checkLogin() {
       }
     })
   })
+}
+
+async function play() {
+  $.level += 1
+  console.log(`当前关卡：${$.level}`)
+  while ($.strength >= 5 && $.level <= 280) {
+    await beginLevel()
+  }
+  if($.not3Star.length && $.strength >= 5){
+    console.log(`去完成尚未三星的关卡`)
+    for(let level of $.not3Star){
+      $.level = parseInt(level)
+      await beginLevel()
+      if($.strength<5) break
+    }
+  }
 }
 
 function getTaskList() {
@@ -268,21 +288,7 @@ function getTaskList() {
             if (safeGet(data)) {
               data = JSON.parse(data)
               for (let task of data.tasks) {
-                if (task.res.sName === "闯关集星") {
-                  $.level = task.state.value + 1
-                  console.log(`当前关卡：${$.level}`)
-                  while ($.strength >= 5 && $.level <= 240) {
-                    await beginLevel()
-                  }
-                  if($.not3Star.length && $.strength >= 5){
-                    console.log(`去完成尚未三星的关卡`)
-                    for(let level of $.not3Star){
-                      $.level = parseInt(level)
-                      await beginLevel()
-                      if($.strength<5) break
-                    }
-                  }
-                } else if (task.res.sName === "逛逛店铺") {
+                if (task.res.sName === "逛逛店铺") {
                   if (task.state.iFreshTimes < task.res.iFreshTimes)
                     console.log(`去做${task.res.sName}任务`)
                   for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {

@@ -31,8 +31,8 @@ const $ = new Env('工业品爱消除');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let inviteCodes = [
-  '840266@2583822@2585219@2586018@1556311@2583822@2585256@2586023@2728968',
-  '840266@2583822@2585219@2586018@1556311@2583822@2585256@2586023@2728968',
+  '840266@2585219@2586018@1556311@2583822@2585256@756497@1234613',
+  '840266@2585219@2586018@1556311@2583822@2585256@756497@1234613',
 ]
 const ACT_ID = 'A_112790_R_4_D_20201209'
 let exchangeName = $.isNode() ? (process.env.EXCHANGE_GYEC ? process.env.EXCHANGE_GYEC : '1888京豆') : ($.getdata('JDGYEC') ? $.getdata('JDGYEC') : '1888京豆')
@@ -96,7 +96,6 @@ function obj2param(obj) {
       }
       await shareCodesFormat()
       await jdGy()
-      await jdGy(false)
     }
   }
 })()
@@ -118,6 +117,7 @@ async function jdGy(help = true) {
     await helpFriends()
   }
   // await marketGoods()
+  await play()
 }
 
 async function helpFriends() {
@@ -240,6 +240,10 @@ function checkLogin() {
                 $.not3Star.push(level.id)
               }
             }
+            if(data.role.allLevels.length)
+              $.level = parseInt(data.role.allLevels[data.role.allLevels.length-1]['id'])
+            else
+              $.level = 1
             if($.not3Star.length)
               console.log(`当前尚未三星的关卡为：${$.not3Star.join(',')}`)
             // SecrectUtil.InitEncryptInfo($.gameToken, $.gameId)
@@ -271,21 +275,7 @@ function getTaskList() {
             if (safeGet(data)) {
               data = JSON.parse(data)
               for (let task of data.tasks) {
-                if (task.res.sName === "闯关集星") {
-                  $.level = task.state.value + 1
-                  console.log(`当前关卡：${$.level}`)
-                  while ($.strength >= 5) {
-                    await beginLevel()
-                  }
-                  if($.not3Star.length && $.strength >= 5){
-                    console.log(`去完成尚未三星的关卡`)
-                    for(let level of $.not3Star){
-                      $.level = parseInt(level)
-                      await beginLevel()
-                      if($.strength<5) break
-                    }
-                  }
-                } else if (task.res.sName === "逛逛店铺" || task.res.sName === "浏览会场") {
+                if (task.res.sName === "逛逛店铺" || task.res.sName === "浏览会场") {
                   if (task.state.iFreshTimes < task.res.iFreshTimes)
                     console.log(`去做${task.res.sName}任务`)
                   for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
@@ -614,9 +604,7 @@ function marketGoods() {
                 for (let vo of data.list) {
                   if (vo.name === exchangeName) {
                     let cond = vo['res']['asConsume'][0].split(',')
-                    if (vo['left'] === 1 && vo['count'] !== 0 && cond[0] === 'X028' && parseInt(cond[1]) <= $.money) {
-                      await buyGood(vo['res']['sID'])
-                    }
+                    await buyGood(vo['res']['sID'])
                   }
                 }
               } else {
@@ -631,6 +619,22 @@ function marketGoods() {
         }
       })
   })
+}
+
+async function play() {
+  $.level += 1
+  console.log(`当前关卡：${$.level}`)
+  while ($.strength >= 5 && $.level <= 280) {
+    await beginLevel()
+  }
+  if($.not3Star.length && $.strength >= 5){
+    console.log(`去完成尚未三星的关卡`)
+    for(let level of $.not3Star){
+      $.level = parseInt(level)
+      await beginLevel()
+      if($.strength<5) break
+    }
+  }
 }
 
 function buyGood(consumeid) {
