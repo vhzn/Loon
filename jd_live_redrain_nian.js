@@ -114,32 +114,23 @@ function showMsg() {
 }
 
 function getRedRain() {
-  let body = 'body=%7B%22liveId%22%3A%223360936%22%7D&build=167515&client=apple&clientVersion=9.3.5&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&scope=01&sign=b8b2772b32687578efce1669a763c8e9&st=1611110417368&sv=111'
   return new Promise(resolve => {
-    $.post(taskPostUrl('liveActivityV842', body), (err, resp, data) => {
+    $.get({
+      url: "http://qn6l5d6wm.hn-bkt.clouddn.com/jd_live_redRain_nian.json?" + Date.now(),
+    }, (err, resp, data) => {
       try {
         if (err) {
-          console.log(`${JSON.stringify(err)}`)
+          console.log(`1111${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            if (data.data && data.data.iconArea) {
-              let act = data.data.iconArea.filter(vo=>vo['type']==="platform_red_packege_rain")[0]
-              if (act) {
-                let url = act.data.activityUrl
-                $.activityId = url.substr(url.indexOf("id=") + 3)
-                $.st = act.startTime
-                $.ed = act.endTime
-                console.log(`下一场红包雨id：${$.activityId}`)
-                console.log(`下一场红包雨开始时间：${new Date($.st)}`)
-                console.log(`下一场红包雨结束时间：${new Date($.ed)}`)
-              } else {
-                console.log(`暂无红包雨`)
-              }
-            } else {
-              console.log(`暂无红包雨`)
-            }
+            $.activityId = data.activityId
+            $.st = data.startTime
+            $.ed = data.endTime
+            console.log(`下一场红包雨id：${$.activityId}`)
+            console.log(`下一场红包雨开始时间：${new Date(data.startTime)}`)
+            console.log(`下一场红包雨结束时间：${new Date(data.endTime)}`)
           }
         }
       } catch (e) {
