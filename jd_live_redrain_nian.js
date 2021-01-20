@@ -113,7 +113,7 @@ function showMsg() {
 }
 
 function getRedRain() {
-  let body = 'area=12_904_908_57903&body=%7B%22liveId%22%3A%223362433%22%7D&build=167515&client=apple&clientVersion=9.3.5&d_brand=apple&d_model=iPhone10%2C2&eid=eidIF3CF0112RTIyQTVGQTEtRDVCQy00Qg%3D%3D6HAJa9%2B/4Vedgo62xKQRoAb47%2Bpyu1EQs/6971aUvk0BQAsZLyQAYeid%2BPgbJ9BQoY1RFtkLCLP5OMqU&isBackground=N&joycious=213&lang=zh_CN&networkType=4g&networklibtype=JDNetworkBaseAF&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&osVersion=14.2&partner=apple&rfs=0000&scope=10&screen=1242%2A2208&sign=8eeb6f993364562a42154ada99b1339e&st=1611072313017&sv=111&uts=0f31TVRjBSuMD/2Arnkk8Y93oz7dnpObDNMZytcHlcvcaW5DMMAbjuCI9Ok0WTiCVM69Z9PcCpytnZeJYIaKi0kBkWYAhiAiJEk2iZ/uvnZe04bekeeBSe%2BSDlCcv34nOWXE8/nxQQATQczNpIaJsUIgV%2BnOzEjQJs1c71T55ViYD5UllmwNTDvgnZtO15D44c/BXI6NH%2BuCnX02hX/MEA%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=unknown'
+  let body = 'body=%7B%22liveId%22%3A%223362433%22%7D&build=167515&client=apple&clientVersion=9.3.5&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=8eeb6f993364562a42154ada99b1339e&st=1611072313017&sv=111'
   return new Promise(resolve => {
     $.post(taskPostUrl('liveActivityV842', body), (err, resp, data) => {
       try {
