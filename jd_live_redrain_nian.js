@@ -44,7 +44,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
 let ids = {
-  '11': 'RRA2ZMK66tw36bRAZTpb8k9zv8rwaxb',
+  '11': 'RRAnabmRSnpzSSZicXUhSFGBvFXs5c',
   '20': 'RRA3q6FQPT9BKg4C6EyhA99TcA9K7SL',
   '21': 'RRA42SucXFqAPggaoYP4c3JYZLHGbkG',
   '22': 'RRAPZRA9mVCzpjH38RUBPseJiZ6oj8',
@@ -114,7 +114,7 @@ function showMsg() {
 }
 
 function getRedRain() {
-  let body = 'body=%7B%22liveId%22%3A%223354273%22%7D&build=167515&client=apple&clientVersion=9.3.5&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&sign=0476c120ea2827a5932298ce35ba9657&st=1611110165473&sv=102'
+  let body = 'body=%7B%22liveId%22%3A%223360936%22%7D&build=167515&client=apple&clientVersion=9.3.5&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&scope=01&sign=b8b2772b32687578efce1669a763c8e9&st=1611110417368&sv=111'
   return new Promise(resolve => {
     $.post(taskPostUrl('liveActivityV842', body), (err, resp, data) => {
       try {
