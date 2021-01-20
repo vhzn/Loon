@@ -156,11 +156,11 @@ function receiveRedRain() {
             if (data.subCode === '0') {
               console.log(`领取成功，获得${JSON.stringify(data.lotteryResult)}`)
               // message+= `领取成功，获得${JSON.stringify(data.lotteryResult)}\n`
-              message += `${data.lotteryResult.jPeasList[0].ext}:${(data.lotteryResult.jPeasList[0].quantity)}京豆\n`
+              message += `${data.lotteryResult.jPeasList[0].ext}:${(data.lotteryResult.jPeasList[0].quantity)}京豆`
 
             } else if (data.subCode === '8') {
               console.log(`今日次数已满`)
-              message += `领取失败，今日已签到\n`;
+              message += `领取失败，本场已领过`;
             } else {
               console.log(`异常：${JSON.stringify(data)}`)
             }
