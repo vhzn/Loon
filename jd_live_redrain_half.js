@@ -163,7 +163,7 @@ function receiveRedRain() {
               console.log(`今日次数已满`)
               message += `领取失败，今日已签到\n`;
             } else {
-              console.log(`异常：${JSON.stringify(data)}`)
+              message += `${data.msg}\n`;
             }
           }
         }
