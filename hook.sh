@@ -65,3 +65,22 @@ for file in $(ls | grep jd_ $1); do
   fi
 done
 git add $surge
+
+# docker
+docker=./docker/crontab_list.sh
+rm $docker
+for file in $(ls | grep jd_ $1); do
+  task=$(cat $file | grep 'tag=.*img-url=.*,')
+  if [ -n "$task" ]; then
+    var=$(cat $file | grep -oEi 'new Env(.*)')
+    var=${var#*Env\(\'}
+    var='# '${var%\'*}
+    echo $var >> $docker
+    cron=$(cat $file | grep 'cron ".*" s')
+    cron=${cron#*cron \"}
+    cron=${cron%\"*}
+    echo $cron' node /scripts/'${file%.*}'.js >> /scripts/logs/'${file%.*}'.log 2>&1' >> $docker
+    echo >> $docker
+  fi
+done
+git add $docker
