@@ -17,7 +17,7 @@
 0 0,9,11,13,15,17,19,20,21,23 3,5,20-30/1 1,2 * node /scripts/jd_live_redrain_nian.js >> /scripts/logs/jd_live_redrain_nian.log 2>&1
 
 # 官方号直播红包雨
-0 0,9,11,13,15,17,19,20,21,23 * * * node /scripts/jd_live_redrain_offical.js >> /scripts/logs/jd_live_redrain_offical.log 2>&1
+0 0,9,11,13,15,17,19,20,21,22,23 * * * node /scripts/jd_live_redrain_offical.js >> /scripts/logs/jd_live_redrain_offical.log 2>&1
 
 # 盲盒抽京豆
 1 7 * * * node /scripts/jd_mh.js >> /scripts/logs/jd_mh.log 2>&1
