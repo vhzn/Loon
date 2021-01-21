@@ -1,7 +1,7 @@
 ## 通知频道：
 https://t.me/joinchat/V0oxYENmx2PTlY1L
 ## 赞赏码:
-https://p.pstatp.com/origin/ffb70003971f84c886e1
+![](https://raw.githubusercontent.com/shylocks/Loon/main/icons/donate.png)
 
 ## 特别声明: 
 
