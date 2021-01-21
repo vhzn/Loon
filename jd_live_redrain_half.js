@@ -49,16 +49,21 @@ let ids = {}
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-  if ($.isNode() && process.env.QINIU_SK) {
-    const fs = require('fs')
-    let data = fs.readFileSync('/home/shylocks/Projects/updateTeam/jd_live_redRain_half.json')
-    data = JSON.parse(data.toString())
-    $.activityId = data.activityId
-    $.st = data.startTime
-    $.ed = data.endTime
-    console.log(`从本地文件读取，下一场红包雨id：${$.activityId}`)
-    console.log(`下一场红包雨开始时间：${new Date(data.startTime)}`)
-    console.log(`下一场红包雨结束时间：${new Date(data.endTime)}`)
+  if ($.isNode()) {
+    if(process.env.QINIU_SK) {
+      const fs = require('fs')
+      let data = fs.readFileSync('/home/shylocks/Projects/updateTeam/jd_live_redRain_half.json')
+      data = JSON.parse(data.toString())
+      $.activityId = data.activityId
+      $.st = data.startTime
+      $.ed = data.endTime
+      console.log(`从本地文件读取，下一场红包雨id：${$.activityId}`)
+      console.log(`下一场红包雨开始时间：${new Date(data.startTime)}`)
+      console.log(`下一场红包雨结束时间：${new Date(data.endTime)}`)
+    }else{
+      await $.wait(1000);
+      await getRedRain();
+    }
   }
   else {
     await getRedRain();
