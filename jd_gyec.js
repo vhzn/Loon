@@ -109,16 +109,21 @@ function obj2param(obj) {
 
 async function jdGy(help = true) {
   $.reqId = 1
-  await getIsvToken()
-  await getIsvToken2()
-  await getActInfo()
-  await getTaskList()
-  await getDailyMatch()
-  if (help) {
-    await helpFriends()
+  try{
+    await getIsvToken()
+    await getIsvToken2()
+    await getActInfo()
+    await getTaskList()
+    await getDailyMatch()
+    if (help) {
+      await helpFriends()
+    }
+    // await marketGoods()
+    await play()
   }
-  // await marketGoods()
-  await play()
+  catch (e) {
+    console.log(e)
+  }
 }
 
 async function helpFriends() {
