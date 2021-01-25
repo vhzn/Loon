@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-01-20 21:27:41
  */
 /*
-超级直播间任务赢京豆
+超级直播间任务赢京豆，任务做完换最右边的京豆
 活动入口：https://anmp.jd.com/babelDiy/Zeus/aKNv7uyr9ebhQRvU1iRd54zvdsi/index.html
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
