@@ -1,6 +1,9 @@
 # 宝洁美发屋
 1 8,9 14-31/1 1 * node /scripts/jd_bj.js >> /scripts/logs/jd_bj.log 2>&1
 
+# 京东手机年终奖
+30 9 * * * node /scripts/jd_festival.js >> /scripts/logs/jd_festival.log 2>&1
+
 # 工业品爱消除
 20 * * * * node /scripts/jd_gyec.js >> /scripts/logs/jd_gyec.log 2>&1
 
@@ -24,6 +27,9 @@
 
 # 京东秒秒币
 10 7 * * * node /scripts/jd_ms.js >> /scripts/logs/jd_ms.log 2>&1
+
+# 超级直播间任务赢京豆
+40 21 * * * node /scripts/jd_super.js >> /scripts/logs/jd_super.log 2>&1
 
 # 海产新年抽奖
 10 7 * * * node /scripts/jd_sx.js >> /scripts/logs/jd_sx.log 2>&1

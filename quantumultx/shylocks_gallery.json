@@ -6,6 +6,9 @@
       "config": "1 8,9 14-31/1 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_bj.js, tag=宝洁美发屋, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_bj.jpg, enabled=true"
     },
     {
+      "config": "30 9 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_festival.js, tag=京东手机年终奖, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_festival2.jpg, enabled=true"
+    },
+    {
       "config": "20 * * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js, tag=工业品爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_gyec.jpg, enabled=true"
     },
     {
@@ -28,6 +31,9 @@
     },
     {
       "config": "10 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js, tag=京东秒秒币, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_ms.jpg, enabled=true"
+    },
+    {
+      "config": "40 21 25 1 * https://raw.githubusercontent.com/shylocks/Loon/main/jd_super.js, tag=超级直播间任务赢京豆, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true"
     },
     {
       "config": "10 7 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_sx.js, tag=海产新年抽奖, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_wechat_sign.jpg, enabled=true"
