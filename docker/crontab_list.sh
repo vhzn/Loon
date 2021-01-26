@@ -2,7 +2,7 @@
 1 8,9 14-31/1 1 * node /scripts/jd_bj.js >> /scripts/logs/jd_bj.log 2>&1
 
 # 源头好物红包
-0 1 * * * node /scripts/jd_coupon.js >> /scripts/logs/jd_coupon.log 2>&1
+0 0 * * *  node /scripts/jd_coupon.js >> /scripts/logs/jd_coupon.log 2>&1
 
 # 京东手机年终奖
 15 0 * * * node /scripts/jd_festival.js >> /scripts/logs/jd_festival.log 2>&1
