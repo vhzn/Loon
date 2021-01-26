@@ -25,8 +25,8 @@ cron "10 20 15 1 *" script-path=https://raw.githubusercontent.com/shylocks/Loon/
 超级直播间幸运值抽京豆 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_mh_super.js, cronexpr="1 8,12,18* * *", timeout=200, enable=true
  */
 const $ = new Env('超级直播间幸运值抽京豆');
-const notify = $.isNode() ? require('./sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const notify = $.isNode() ? require('../sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
