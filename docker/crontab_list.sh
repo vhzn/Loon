@@ -1,8 +1,11 @@
 # 宝洁美发屋
 1 8,9 14-31/1 1 * node /scripts/jd_bj.js >> /scripts/logs/jd_bj.log 2>&1
 
+# 源头好物红包
+0 1 * * * node /scripts/jd_coupon.js >> /scripts/logs/jd_coupon.log 2>&1
+
 # 京东手机年终奖
-30 9 * * * node /scripts/jd_festival.js >> /scripts/logs/jd_festival.log 2>&1
+15 0 * * * node /scripts/jd_festival.js >> /scripts/logs/jd_festival.log 2>&1
 
 # 工业品爱消除
 20 * * * * node /scripts/jd_gyec.js >> /scripts/logs/jd_gyec.log 2>&1
@@ -15,6 +18,9 @@
 
 # 半点红包雨
 30,31 12-23/1 * * * node /scripts/jd_live_redrain_half.js >> /scripts/logs/jd_live_redrain_half.log 2>&1
+
+# 半点红包雨
+30,31 12-23/1 * * * node /scripts/jd_live_redrain_half_2.js >> /scripts/logs/jd_live_redrain_half_2.log 2>&1
 
 # 年货直播红包雨
 0 0,9,11,13,15,17,19,20,21,23 3,5,20-30/1 1,2 * node /scripts/jd_live_redrain_nian.js >> /scripts/logs/jd_live_redrain_nian.log 2>&1
